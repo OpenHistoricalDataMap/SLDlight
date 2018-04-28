@@ -1,0 +1,59 @@
+SLD light
+
+<Name>landuse_gardeningandfarm</Name>
+<class>
+	<name>allotments</name>
+	<Polygon>
+		<fill>#EECFB3</fill>
+	</Polygon>
+</class>
+<class>
+	<name>allotments</name>
+	<Polygon>
+		<fill>#EECFB3</fill>
+		<fill-opacity>1.0</fill-opacity>
+	</Polygon>
+</class>
+<class>
+	<name>line</name>
+	zoom 2
+	
+
+	Format sld light for ohdm
+	sld light zu sldlabelsld auf webserver per ftp
+	wie gehen sld editoren, helfen die?
+	
+	
+SLD light
+am besten einfach eine Komma-separierte Liste 
+in config-File muss dann Reihenfolge definiert werden
+z.B.
+name, title, abstract, sldname, sldliteral, zoom, polygon/line/point/text, fill/stroke, 
+stroke-width/ , stroke-opacity/fill-opacity, stroke-linejoin, stroke-linecap, stroke-dasharray,
+stroke-dashoffset, 
+
+name
+title
+abstract
+sldname
+sldliteral
+(
+zoom
+sldlabel
+polygon/line/point/text
+fill/stroke/font-family
+stroke-width/font-style
+stroke-opacity/fill-opacity/font-weight
+stroke-linejoin/font-size
+stroke-linecap
+stroke-dasharray
+stroke-dashoffset
+),
+(...)
+
+scale denominator?
+
+zoom muss gemapped werden
+stufen 0 - 13 gemapped auf 10000 oder Ähnliches
+
+mit SLD Editor rumspielen um Häufige Gegebenheiten zu analysieren
