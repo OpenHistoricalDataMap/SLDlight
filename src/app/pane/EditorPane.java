@@ -45,16 +45,16 @@ public class EditorPane extends ScrollPane {
         pane.setVgap(10);
         pane.setHgap(10);
         // create name components
-        Label nameLabel = new Label("Name");
+        Label nameLabel = new Label("NamedLayerName");
         TextField nameTextField = new TextField();
         // create title components
-        Label titleLabel = new Label("Title");
+        Label titleLabel = new Label("UserStyleTitle");
         TextField titleTextField = new TextField();
         // create sldname components
-        Label sldNameLabel = new Label("SLD Name");
+        Label sldNameLabel = new Label("UserStyleAbstract");
         TextField sldNameTextField = new TextField();
         // create sldliteral components
-        Label sldLiteralLabel = new Label("SLD Literal");
+        Label sldLiteralLabel = new Label("Rule Name");
         TextField sldLiteralTextField = new TextField();
 
 

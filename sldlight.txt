@@ -27,33 +27,109 @@ SLD light
 SLD light
 am besten einfach eine Komma-separierte Liste 
 in config-File muss dann Reihenfolge definiert werden
-z.B.
-name, title, abstract, sldname, sldliteral, zoom, polygon/line/point/text, fill/stroke, 
-stroke-width/ , stroke-opacity/fill-opacity, stroke-linejoin, stroke-linecap, stroke-dasharray,
-stroke-dashoffset, 
 
-name
-title
-abstract
-sldname
-sldliteral
-(
-zoom
-sldlabel
-polygon/line/point/text
-fill/stroke/font-family
-stroke-width/font-style
-stroke-opacity/fill-opacity/font-weight
-stroke-linejoin/font-size
-stroke-linecap
-stroke-dasharray
-stroke-dashoffset
-),
-(...)
 
-scale denominator?
+Besonderheiten rules: Rules definieren immer genau einen Filter auf den das was darin steht angewendet wird, z.B. <ogc:Filter>
+                                                                                                                             <ogc:PropertyIsEqualTo>
+                                                                                                                               <ogc:PropertyName>subclassname</ogc:PropertyName>
+                                                                                                                               <ogc:Literal>allotments</ogc:Literal>
+                                                                                                                             </ogc:PropertyIsEqualTo>
+                                                                                                                           </ogc:Filter>
+
+
+
 
 zoom muss gemapped werden
 stufen 0 - 13 gemapped auf 10000 oder Ähnliches
 
 mit SLD Editor rumspielen um Häufige Gegebenheiten zu analysieren
+
+# font-family standard value arial
+# font weight entweder "normal" oder "bold"
+# font style entweder "normal" oder "italic" oder "opaque"
+#### bei Text eigentlich nur <sld:Label> wichtig, weil da der Text drin steht und font-size
+### außerdem label-placement wichtig
+
+
+
+
+namedLayerName
+userStyleTitle
+userStyleAbstract
+rulename
+minScaleDenominator as value between 0 - 16
+maxScaleDenominator as value between 0 - 16
+filter (PropertyIsEqualToLiteral)
+polygon
+.
+.
+.
+.
+.
+point
+.
+.
+.
+line
+.
+.
+.
+.
+rulename (if string value does not match polygon/point/line/text its a rulename)
+minScaleDenominator as value between 0 - 16
+maxScaleDenominator as value between 0 - 16
+filterPropertyIsEqualToLiteral
+polygon
+.
+.
+.
+.
+.
+
+
+The following example shows the use of scale selection in a pair of rules. The rules specify that:
+
+    at scales above 1:20,000 (larger scales, with scale denominators smaller than 20,000) features are symbolized with 10-pixel red squares,
+    at scales at or below 1:20,000 (smaller scales, with scale denominators larger than 20,000) features are symbolized with 4-pixel blue triangles.
+
+FILTER
+<ogc:Filter>
+            <ogc:PropertyIsEqualTo>
+              <ogc:PropertyName>subclassname</ogc:PropertyName>
+              <ogc:Literal>cemetery</ogc:Literal>
+            </ogc:PropertyIsEqualTo>
+</ogc:Filter>
+
+
+<Rule>
+   <MaxScaleDenominator>20000</MaxScaleDenominator>
+   <PointSymbolizer>
+     <Graphic>
+       <Mark>
+         <WellKnownName>square</WellKnownName>
+         <Fill><CssParameter name="fill">#FF0000</CssParameter>
+       </Mark>
+       <Size>10</Size>
+     </Graphic>
+   </PointSymbolizer>
+</Rule>
+<Rule>
+   <MinScaleDenominator>20000</MinScaleDenominator>
+   <PointSymbolizer>
+     <Graphic>
+       <Mark>
+         <WellKnownName>triangle</WellKnownName>
+         <Fill><CssParameter name="fill">#0000FF</CssParameter>
+       </Mark>
+       <Size>4</Size>
+     </Graphic>
+   </PointSymbolizer>
+</Rule>
+
+
+ <sld:Name>Zoomstufe 15</sld:Name>
+          <sld:MinScaleDenominator>8000.0</sld:MinScaleDenominator>
+          <sld:MaxScaleDenominator>15000.0</sld:MaxScaleDenominator>
+ <sld:Name>Zoomstufe 16</sld:Name>
+          <sld:MaxScaleDenominator>8000.0</sld:MaxScaleDenominator>
+
