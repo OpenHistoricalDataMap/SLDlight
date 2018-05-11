@@ -8,6 +8,11 @@ import java.util.List;
 public class SLDLightFileReader {
 
     public static final String ZOOM_REGEX = "\\d+-\\d+";
+    public static final String POLYGON_REGEX = "Polygon([\\d|\\D]*)";
+    public static final String POINT_REGEX = "Point([\\d|\\D]*)";
+    public static final String LINE_REGEX = "Line([\\d|\\D]*)";
+    public static final String TEXT_REGEX = "Text([\\d|\\D]*)";
+    public static final String NAME_REGEX = "[\\d|\\D]+";
 
     private StringBuilder output;
     private List<String> lines;
@@ -16,8 +21,6 @@ public class SLDLightFileReader {
         output = new StringBuilder();
         try {
             lines = readFileToList(fileName);
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -41,7 +44,7 @@ public class SLDLightFileReader {
         return records;
     }
 
-    private String parseLinesToSLD(List<String> lines) {
+    public String parseLinesToSLD() {
         StringBuilder stringBuilder = new StringBuilder();
         addHeaderTo(stringBuilder);
 
@@ -53,14 +56,28 @@ public class SLDLightFileReader {
                 // first line is always layername
                 layername = lines.get(i).trim();
                 addLayernameTo(layername, stringBuilder);
+                continue;
             } else {
                 if (lines.get(i).matches(ZOOM_REGEX)) {
                     addRuleTo(layername + "_rule_" + ruleCount, stringBuilder);
                     ruleCount++;
                     addZoomTo(lines.get(i).trim(), stringBuilder);
+                    continue;
+                } else if (lines.get(i).matches(POLYGON_REGEX)) {
+                    addPolygonTo(lines.get(i).trim(), stringBuilder);
+                } else if (lines.get(i).matches(POINT_REGEX)) {
+                    addPointTo(lines.get(i).trim(), stringBuilder);
+                } else if (lines.get(i).matches(LINE_REGEX)) {
+                    addLineTo(lines.get(i).trim(), stringBuilder);
+                } else if (lines.get(i).matches(TEXT_REGEX)) {
+                    addTextTo(lines.get(i).trim(), stringBuilder);
+                } else if (lines.get(i).matches(NAME_REGEX)) {
+                    addFilterTo(lines.get(i).trim(), stringBuilder);
                 }
             }
         }
+
+        addFooterTo(stringBuilder);
 
         return stringBuilder.toString();
     }
@@ -68,16 +85,90 @@ public class SLDLightFileReader {
     private void addHeaderTo(StringBuilder stringBuilder) {
         stringBuilder.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
         stringBuilder.append("<sld:StyledLayerDescriptor xmlns=\"http://www.opengis.net/sld\" xmlns:sld=\"http://www.opengis.net/sld\" " +
-                "xmlns:gml=\"http://www.opengis.net/gml\" xmlns:ogc=\"http://www.opengis.net/ogc\" version=\"1.0.0\">)\n");
+                "xmlns:gml=\"http://www.opengis.net/gml\" xmlns:ogc=\"http://www.opengis.net/ogc\" version=\"1.0.0\">\n");
+    }
+    private void addRuleTo(String ruleName, StringBuilder stringBuilder) {
+        stringBuilder.append("      <sld:Rule>\n");
+        stringBuilder.append("       <sld:Name>" + ruleName + "</sld:Name>\n");
     }
 
+    private void addFilterTo(String literal, StringBuilder stringBuilder) {
+        stringBuilder.append("        <ogc:Filter>\n");
+        stringBuilder.append("         <ogc:PropertyIsEqualTo>\n");
+        stringBuilder.append("          <ogc:PropertyName>subclassname</ogc:PropertyName>\n");
+        stringBuilder.append("          <ogc:Literal>" + literal + "</ogc:Literal>\n");
+        stringBuilder.append("         </ogc:PropertyIsEqualTo>\n");
+        stringBuilder.append("        </ogc:Filter>\n");
+    }
+
+    private void addTextTo(String line, StringBuilder stringBuilder) {
+        String attributes = line.substring("Text(".length(), line.length() - 1);
+    }
+
+    private void addLineTo(String line, StringBuilder stringBuilder) {
+        String attributes = line.substring("Line(".length(), line.length() - 1);
+        String[] attributesArray = attributes.split(",");
+        if (attributesArray.length < 4) {
+            return;
+        }
+
+        stringBuilder.append("<sld:LineSymbolizer>\n");
+        stringBuilder.append("<sld:Stroke>\n");
+        stringBuilder.append("<sld:CssParameter name=\"stroke\">" + attributesArray[0] + "</sld:CssParameter>\n");
+        stringBuilder.append("<sld:CssParameter name=\"stroke-width\">" + attributesArray[1] + "</sld:CssParameter>\n");
+        stringBuilder.append("<sld:CssParameter name=\"stroke-dasharray\">" + attributesArray[2] + "</sld:CssParameter>\n");
+        stringBuilder.append("</sld:stroke>");
+        stringBuilder.append("<sld:PerpendicularOffset>" + attributesArray[3] + "</sld:PerpendicularOffset>");
+        stringBuilder.append("</sld:PolygonSymbolizer>");
+    }
+
+    private void addPointTo(String line, StringBuilder stringBuilder) {
+        String attributes = line.substring("Point(".length(), line.length() - 1);
+        String[] attributesArray = attributes.split(",");
+        if (attributesArray.length < 3) {
+            return;
+        }
+
+        stringBuilder.append("      <sld:PointSymbolizer>\n");
+        stringBuilder.append("        <sld:Graphic>\n");
+        stringBuilder.append("         <sld:Mark>\n");
+        stringBuilder.append("           <sld:Fill>\n");
+        stringBuilder.append("            <sld:CssParameter name=\"fill\">" + attributesArray[0] + "</sld:CssParameter>\n");
+        stringBuilder.append("           </sld:Fill>\n");
+        stringBuilder.append("          </sld:Mark>\n");
+        stringBuilder.append("         <sld:Size>" + attributesArray[2] + "</sld:Size>\n");
+        stringBuilder.append("        </sld:Graphic>\n");
+        stringBuilder.append("       </sld:PointSymbolizer>\n");
+    }
+
+    private void addPolygonTo(String line, StringBuilder stringBuilder) {
+        String attributes = line.substring("Polygon(".length(), line.length() - 1);
+        String[] attributesArray = attributes.split(",");
+        if (attributesArray.length < 5) {
+            return;
+        }
+
+        stringBuilder.append("        <sld:PolygonSymbolizer>\n");
+        stringBuilder.append("<sld:Fill>\n");
+        stringBuilder.append("<sld:CssParameter name=\"fill\">" + attributesArray[0] + "</sld:CssParameter>\n");
+        stringBuilder.append("<sld:CssParameter name=\"fill-opacity\">" + attributesArray[1] + "</sld:CssParameter>\n");
+        stringBuilder.append("</sld:Fill>\n");
+        stringBuilder.append("<sld:stroke>\n");
+        stringBuilder.append("<sld:CssParameter name=\"stroke\">" + attributesArray[2] + "</sld:CssParameter>\n");
+        stringBuilder.append("<sld:CssParameter name=\"stroke-width\">" + attributesArray[3] + "</sld:CssParameter>\n");
+        stringBuilder.append("<sld:CssParameter name=\"stroke-dasharray\">" + attributesArray[4] + "</sld:CssParameter>\n");
+        stringBuilder.append("</sld:stroke>");
+        stringBuilder.append("        </sld:PolygonSymbolizer>");
+    }
+
+
     private void addLayernameTo(String layerName, StringBuilder stringBuilder) {
-        stringBuilder.append("<sld:NamedLayer>\n");
-        stringBuilder.append("<sld:Name>" + layerName + "</sld:Name>\n");
-        stringBuilder.append("<sld:UserStyle>\n");
-        stringBuilder.append("<sld:Name>Default Styler</sld:Name>\n");
-        stringBuilder.append("<sld:FeatureTypeStyle>\n");
-        stringBuilder.append("<sld:Name>name</sld:Name>\n");
+        stringBuilder.append(" <sld:NamedLayer>\n");
+        stringBuilder.append("  <sld:Name>" + layerName + "</sld:Name>\n");
+        stringBuilder.append("   <sld:UserStyle>\n");
+        stringBuilder.append("    <sld:Name>Default Styler</sld:Name>\n");
+        stringBuilder.append("    <sld:FeatureTypeStyle>\n");
+        stringBuilder.append("     <sld:Name>name</sld:Name>\n");
 
     }
 
@@ -85,10 +176,18 @@ public class SLDLightFileReader {
         String[] splitString = zoom.split("-");
         String minScale = getScaleDenominatorForZoomLevel(splitString[0]);
         String maxScale = getScaleDenominatorForZoomLevel(splitString[1]);
-        stringBuilder.append("<sld:MinScaleDenominator>" + minScale + "</sld:MinScaleDenominator>");
-        stringBuilder.append("<sld:MaxScaleDenominator>" + maxScale + "</sld:MaxScaleDenominator>");
+        stringBuilder.append("       <sld:MinScaleDenominator>" + minScale + "</sld:MinScaleDenominator>\n");
+        stringBuilder.append("       <sld:MaxScaleDenominator>" + maxScale + "</sld:MaxScaleDenominator>\n");
 
     }
+
+    private void addFooterTo(StringBuilder stringBuilder) {
+        stringBuilder.append("      </sld:FeatureTypeStyle>\n");
+        stringBuilder.append("    </sld:UserStyle>\n");
+        stringBuilder.append("  </sld:NamedLayer>\n");
+        stringBuilder.append("</sld:StyledLayerDescriptor>\n");
+    }
+
 
     private String getScaleDenominatorForZoomLevel(String s) {
         // TODO map config
@@ -101,8 +200,4 @@ public class SLDLightFileReader {
         return "";
     }
 
-    private void addRuleTo(String ruleName, StringBuilder stringBuilder) {
-        stringBuilder.append("<sld:Rule>\n");
-        stringBuilder.append("<sld:Name>" + ruleName + "</sld:Name>\n");
-    }
 }

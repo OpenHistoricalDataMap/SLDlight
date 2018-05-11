@@ -2,7 +2,7 @@ SLD light
 Example
 building_military_line
 0-14
-Filter „name“
+grass
 Polygon(#FEFEFE,1.0,#ABABAB,1.0,5 2)
 Line(#CCCCCC,2,5 2,3)
 15-16
