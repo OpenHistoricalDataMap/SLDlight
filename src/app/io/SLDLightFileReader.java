@@ -49,7 +49,7 @@ public class SLDLightFileReader {
         addHeaderTo(stringBuilder);
 
         String layername = ""; // used to name rules
-        int ruleCount = 0; // used to name rules
+        int ruleCount = 1; // used to name rules
 
         for (int i = 0; i < lines.size(); i++) {
             if (i == 0) {
@@ -59,6 +59,9 @@ public class SLDLightFileReader {
                 continue;
             } else {
                 if (lines.get(i).matches(ZOOM_REGEX)) {
+                    if (ruleCount > 1) {
+                        addRuleCloserTo(stringBuilder);
+                    }
                     addRuleTo(layername + "_rule_" + ruleCount, stringBuilder);
                     ruleCount++;
                     addZoomTo(lines.get(i).trim(), stringBuilder);
@@ -82,11 +85,16 @@ public class SLDLightFileReader {
         return stringBuilder.toString();
     }
 
+    private void addRuleCloserTo(StringBuilder stringBuilder) {
+        stringBuilder.append("      </sld:Rule>\n");
+    }
+
     private void addHeaderTo(StringBuilder stringBuilder) {
         stringBuilder.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
         stringBuilder.append("<sld:StyledLayerDescriptor xmlns=\"http://www.opengis.net/sld\" xmlns:sld=\"http://www.opengis.net/sld\" " +
                 "xmlns:gml=\"http://www.opengis.net/gml\" xmlns:ogc=\"http://www.opengis.net/ogc\" version=\"1.0.0\">\n");
     }
+
     private void addRuleTo(String ruleName, StringBuilder stringBuilder) {
         stringBuilder.append("      <sld:Rule>\n");
         stringBuilder.append("       <sld:Name>" + ruleName + "</sld:Name>\n");
@@ -112,14 +120,14 @@ public class SLDLightFileReader {
             return;
         }
 
-        stringBuilder.append("<sld:LineSymbolizer>\n");
-        stringBuilder.append("<sld:Stroke>\n");
-        stringBuilder.append("<sld:CssParameter name=\"stroke\">" + attributesArray[0] + "</sld:CssParameter>\n");
-        stringBuilder.append("<sld:CssParameter name=\"stroke-width\">" + attributesArray[1] + "</sld:CssParameter>\n");
-        stringBuilder.append("<sld:CssParameter name=\"stroke-dasharray\">" + attributesArray[2] + "</sld:CssParameter>\n");
-        stringBuilder.append("</sld:stroke>");
-        stringBuilder.append("<sld:PerpendicularOffset>" + attributesArray[3] + "</sld:PerpendicularOffset>");
-        stringBuilder.append("</sld:PolygonSymbolizer>");
+        stringBuilder.append("         <sld:LineSymbolizer>\n");
+        stringBuilder.append("          <sld:Stroke>\n");
+        stringBuilder.append("           <sld:CssParameter name=\"stroke\">" + attributesArray[0] + "</sld:CssParameter>\n");
+        stringBuilder.append("           <sld:CssParameter name=\"stroke-width\">" + attributesArray[1] + "</sld:CssParameter>\n");
+        stringBuilder.append("           <sld:CssParameter name=\"stroke-dasharray\">" + attributesArray[2] + "</sld:CssParameter>\n");
+        stringBuilder.append("          </sld:stroke>\n");
+        stringBuilder.append("          <sld:PerpendicularOffset>" + attributesArray[3] + "</sld:PerpendicularOffset>\n");
+        stringBuilder.append("         </sld:LineSymbolizer>\n");
     }
 
     private void addPointTo(String line, StringBuilder stringBuilder) {
@@ -129,16 +137,17 @@ public class SLDLightFileReader {
             return;
         }
 
-        stringBuilder.append("      <sld:PointSymbolizer>\n");
-        stringBuilder.append("        <sld:Graphic>\n");
-        stringBuilder.append("         <sld:Mark>\n");
-        stringBuilder.append("           <sld:Fill>\n");
-        stringBuilder.append("            <sld:CssParameter name=\"fill\">" + attributesArray[0] + "</sld:CssParameter>\n");
-        stringBuilder.append("           </sld:Fill>\n");
-        stringBuilder.append("          </sld:Mark>\n");
-        stringBuilder.append("         <sld:Size>" + attributesArray[2] + "</sld:Size>\n");
-        stringBuilder.append("        </sld:Graphic>\n");
-        stringBuilder.append("       </sld:PointSymbolizer>\n");
+        stringBuilder.append("       <sld:PointSymbolizer>\n");
+        stringBuilder.append("         <sld:Graphic>\n");
+        stringBuilder.append("          <sld:Mark>\n");
+        stringBuilder.append("            <sld:WellKnownName>" + attributesArray[0] + "</sld:WellKnownName>\n");
+        stringBuilder.append("            <sld:Fill>\n");
+        stringBuilder.append("             <sld:CssParameter name=\"fill\">" + attributesArray[1] + "</sld:CssParameter>\n");
+        stringBuilder.append("            </sld:Fill>\n");
+        stringBuilder.append("           </sld:Mark>\n");
+        stringBuilder.append("          <sld:Size>" + attributesArray[2] + "</sld:Size>\n");
+        stringBuilder.append("         </sld:Graphic>\n");
+        stringBuilder.append("        </sld:PointSymbolizer>\n");
     }
 
     private void addPolygonTo(String line, StringBuilder stringBuilder) {
@@ -149,16 +158,16 @@ public class SLDLightFileReader {
         }
 
         stringBuilder.append("        <sld:PolygonSymbolizer>\n");
-        stringBuilder.append("<sld:Fill>\n");
-        stringBuilder.append("<sld:CssParameter name=\"fill\">" + attributesArray[0] + "</sld:CssParameter>\n");
-        stringBuilder.append("<sld:CssParameter name=\"fill-opacity\">" + attributesArray[1] + "</sld:CssParameter>\n");
-        stringBuilder.append("</sld:Fill>\n");
-        stringBuilder.append("<sld:stroke>\n");
-        stringBuilder.append("<sld:CssParameter name=\"stroke\">" + attributesArray[2] + "</sld:CssParameter>\n");
-        stringBuilder.append("<sld:CssParameter name=\"stroke-width\">" + attributesArray[3] + "</sld:CssParameter>\n");
-        stringBuilder.append("<sld:CssParameter name=\"stroke-dasharray\">" + attributesArray[4] + "</sld:CssParameter>\n");
-        stringBuilder.append("</sld:stroke>");
-        stringBuilder.append("        </sld:PolygonSymbolizer>");
+        stringBuilder.append("         <sld:Fill>\n");
+        stringBuilder.append("          <sld:CssParameter name=\"fill\">" + attributesArray[0] + "</sld:CssParameter>\n");
+        stringBuilder.append("          <sld:CssParameter name=\"fill-opacity\">" + attributesArray[1] + "</sld:CssParameter>\n");
+        stringBuilder.append("         </sld:Fill>\n");
+        stringBuilder.append("         <sld:stroke>\n");
+        stringBuilder.append("          <sld:CssParameter name=\"stroke\">" + attributesArray[2] + "</sld:CssParameter>\n");
+        stringBuilder.append("          <sld:CssParameter name=\"stroke-width\">" + attributesArray[3] + "</sld:CssParameter>\n");
+        stringBuilder.append("          <sld:CssParameter name=\"stroke-dasharray\">" + attributesArray[4] + "</sld:CssParameter>\n");
+        stringBuilder.append("         </sld:stroke>\n");
+        stringBuilder.append("        </sld:PolygonSymbolizer>\n");
     }
 
 
@@ -182,7 +191,8 @@ public class SLDLightFileReader {
     }
 
     private void addFooterTo(StringBuilder stringBuilder) {
-        stringBuilder.append("      </sld:FeatureTypeStyle>\n");
+        addRuleCloserTo(stringBuilder);
+        stringBuilder.append("     </sld:FeatureTypeStyle>\n");
         stringBuilder.append("    </sld:UserStyle>\n");
         stringBuilder.append("  </sld:NamedLayer>\n");
         stringBuilder.append("</sld:StyledLayerDescriptor>\n");
