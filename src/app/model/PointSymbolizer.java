@@ -13,6 +13,24 @@ public class PointSymbolizer implements Symbolizer {
         size = attributes[2];
     }
 
+    public String toSLD(){
+        StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append("       <sld:PointSymbolizer>\n");
+        stringBuilder.append("         <sld:Graphic>\n");
+        stringBuilder.append("          <sld:Mark>\n");
+        stringBuilder.append("            <sld:WellKnownName>" + getWellKnownName() + "</sld:WellKnownName>\n");
+        stringBuilder.append("            <sld:Fill>\n");
+        stringBuilder.append("             <sld:CssParameter name=\"fill\">" + getFill() + "</sld:CssParameter>\n");
+        stringBuilder.append("            </sld:Fill>\n");
+        stringBuilder.append("           </sld:Mark>\n");
+        stringBuilder.append("          <sld:Size>" + getSize() + "</sld:Size>\n");
+        stringBuilder.append("         </sld:Graphic>\n");
+        stringBuilder.append("        </sld:PointSymbolizer>\n");
+
+        return stringBuilder.toString();
+    }
+
     public String getWellKnownName() {
         return wellKnownName;
     }

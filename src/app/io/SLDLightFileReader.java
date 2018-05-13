@@ -1,5 +1,10 @@
 package app.io;
 
+import app.model.LineSymbolizer;
+import app.model.PointSymbolizer;
+import app.model.PolygonSymbolizer;
+import app.model.TextSymbolizer;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -67,13 +72,17 @@ public class SLDLightFileReader {
                     addZoomTo(lines.get(i).trim(), stringBuilder);
                     continue;
                 } else if (lines.get(i).matches(POLYGON_REGEX)) {
-                    addPolygonTo(lines.get(i).trim(), stringBuilder);
+                    PolygonSymbolizer polygon = new PolygonSymbolizer(lines.get(i).trim());
+                    addPolygonTo(polygon, stringBuilder);
                 } else if (lines.get(i).matches(POINT_REGEX)) {
-                    addPointTo(lines.get(i).trim(), stringBuilder);
+                    PointSymbolizer point = new PointSymbolizer(lines.get(i).trim());
+                    addPointTo(point, stringBuilder);
                 } else if (lines.get(i).matches(LINE_REGEX)) {
-                    addLineTo(lines.get(i).trim(), stringBuilder);
+                    LineSymbolizer line = new LineSymbolizer(lines.get(i).trim());
+                    addLineTo(line, stringBuilder);
                 } else if (lines.get(i).matches(TEXT_REGEX)) {
-                    addTextTo(lines.get(i).trim(), stringBuilder);
+                    TextSymbolizer text = new TextSymbolizer(lines.get(i).trim());
+                    addTextTo(text, stringBuilder);
                 } else if (lines.get(i).matches(NAME_REGEX)) {
                     addFilterTo(lines.get(i).trim(), stringBuilder);
                 }
@@ -109,65 +118,20 @@ public class SLDLightFileReader {
         stringBuilder.append("        </ogc:Filter>\n");
     }
 
-    private void addTextTo(String line, StringBuilder stringBuilder) {
-        String attributes = line.substring("Text(".length(), line.length() - 1);
+    private void addTextTo(TextSymbolizer text, StringBuilder stringBuilder) {
+        stringBuilder.append(text.toSLD());
     }
 
-    private void addLineTo(String line, StringBuilder stringBuilder) {
-        String attributes = line.substring("Line(".length(), line.length() - 1);
-        String[] attributesArray = attributes.split(",");
-        if (attributesArray.length < 4) {
-            return;
-        }
-
-        stringBuilder.append("         <sld:LineSymbolizer>\n");
-        stringBuilder.append("          <sld:Stroke>\n");
-        stringBuilder.append("           <sld:CssParameter name=\"stroke\">" + attributesArray[0] + "</sld:CssParameter>\n");
-        stringBuilder.append("           <sld:CssParameter name=\"stroke-width\">" + attributesArray[1] + "</sld:CssParameter>\n");
-        stringBuilder.append("           <sld:CssParameter name=\"stroke-dasharray\">" + attributesArray[2] + "</sld:CssParameter>\n");
-        stringBuilder.append("          </sld:stroke>\n");
-        stringBuilder.append("          <sld:PerpendicularOffset>" + attributesArray[3] + "</sld:PerpendicularOffset>\n");
-        stringBuilder.append("         </sld:LineSymbolizer>\n");
+    private void addLineTo(LineSymbolizer line, StringBuilder stringBuilder) {
+        stringBuilder.append(line.toSLD());
     }
 
-    private void addPointTo(String line, StringBuilder stringBuilder) {
-        String attributes = line.substring("Point(".length(), line.length() - 1);
-        String[] attributesArray = attributes.split(",");
-        if (attributesArray.length < 3) {
-            return;
-        }
-
-        stringBuilder.append("       <sld:PointSymbolizer>\n");
-        stringBuilder.append("         <sld:Graphic>\n");
-        stringBuilder.append("          <sld:Mark>\n");
-        stringBuilder.append("            <sld:WellKnownName>" + attributesArray[0] + "</sld:WellKnownName>\n");
-        stringBuilder.append("            <sld:Fill>\n");
-        stringBuilder.append("             <sld:CssParameter name=\"fill\">" + attributesArray[1] + "</sld:CssParameter>\n");
-        stringBuilder.append("            </sld:Fill>\n");
-        stringBuilder.append("           </sld:Mark>\n");
-        stringBuilder.append("          <sld:Size>" + attributesArray[2] + "</sld:Size>\n");
-        stringBuilder.append("         </sld:Graphic>\n");
-        stringBuilder.append("        </sld:PointSymbolizer>\n");
+    private void addPointTo(PointSymbolizer point, StringBuilder stringBuilder) {
+        stringBuilder.append(point.toSLD());
     }
 
-    private void addPolygonTo(String line, StringBuilder stringBuilder) {
-        String attributes = line.substring("Polygon(".length(), line.length() - 1);
-        String[] attributesArray = attributes.split(",");
-        if (attributesArray.length < 5) {
-            return;
-        }
-
-        stringBuilder.append("        <sld:PolygonSymbolizer>\n");
-        stringBuilder.append("         <sld:Fill>\n");
-        stringBuilder.append("          <sld:CssParameter name=\"fill\">" + attributesArray[0] + "</sld:CssParameter>\n");
-        stringBuilder.append("          <sld:CssParameter name=\"fill-opacity\">" + attributesArray[1] + "</sld:CssParameter>\n");
-        stringBuilder.append("         </sld:Fill>\n");
-        stringBuilder.append("         <sld:stroke>\n");
-        stringBuilder.append("          <sld:CssParameter name=\"stroke\">" + attributesArray[2] + "</sld:CssParameter>\n");
-        stringBuilder.append("          <sld:CssParameter name=\"stroke-width\">" + attributesArray[3] + "</sld:CssParameter>\n");
-        stringBuilder.append("          <sld:CssParameter name=\"stroke-dasharray\">" + attributesArray[4] + "</sld:CssParameter>\n");
-        stringBuilder.append("         </sld:stroke>\n");
-        stringBuilder.append("        </sld:PolygonSymbolizer>\n");
+    private void addPolygonTo(PolygonSymbolizer polygon, StringBuilder stringBuilder) {
+        stringBuilder.append(polygon.toSLD());
     }
 
 

@@ -4,7 +4,7 @@ public class TextSymbolizer implements Symbolizer {
 
     private String label, fontSize, fontWeight, fill, anchorPointX, anchorPointY, displacementX, displacementY;
 
-    public TextSymbolizer(String line){
+    public TextSymbolizer(String line) {
         String trim = line.substring("Line(".length(), line.length() - 1);
         String[] attributes = trim.split(",");
 
@@ -16,6 +16,39 @@ public class TextSymbolizer implements Symbolizer {
         anchorPointY = attributes[5];
         displacementX = attributes[6];
         displacementY = attributes[7];
+    }
+
+    public String toSLD() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append("         <sld:TextSymbolizer>\n");
+        stringBuilder.append("          <sld:Label>\n");
+        stringBuilder.append("             <ogc:PropertyName>" + getLabel() + "</ocg:PropertyName>\n");
+        stringBuilder.append("          </sld:Label>\n");
+        stringBuilder.append("          <sld:Font>\n");
+        stringBuilder.append("           <sld:CssParameter name=\"font-family\">Arial</sld:CssParameter>\n");
+        stringBuilder.append("           <sld:CssParameter name=\"font-size\">" + getFontSize() + "</sld:CssParameter>\n");
+        stringBuilder.append("           <sld:CssParameter name=\"font-style\">normal</sld:CssParameter>\n");
+        stringBuilder.append("           <sld:CssParameter name=\"font-weight\">" + fontWeight + "</sld:CssParameter>\n");
+        stringBuilder.append("          </sld:Font>\n");
+        stringBuilder.append("          <sld:LabelPlacement>\n");
+        stringBuilder.append("           <sld:PointPlacement>\n");
+        stringBuilder.append("            <sld:AnchorPoint>\n");
+        stringBuilder.append("             <sld:AnchorPointX>" + getAnchorPointX() + "</sld:AnchorPointX>\n");
+        stringBuilder.append("             <sld:AnchorPointY>" + getAnchorPointY() + "</sld:AnchorPointY>\n");
+        stringBuilder.append("            </sld:AnchorPoint>\n");
+        stringBuilder.append("            <sld:Displacement>\n");
+        stringBuilder.append("             <sld:DisplacementX>" + getDisplacementX() + "</sld:DisplacementX>\n");
+        stringBuilder.append("             <sld:DisplacementY>" + getDisplacementY() + "</sld:DisplacementY>\n");
+        stringBuilder.append("            </sld:Displacement>\n");
+        stringBuilder.append("           </sld:PointPlacement>\n");
+        stringBuilder.append("          </sld:LabelPlacement>\n");
+        stringBuilder.append("          <sld:Fill>\n");
+        stringBuilder.append("           <sld:CssParameter name=\"fill\">" + fill + "</sld:CssParameter>\n");
+        stringBuilder.append("          </sld:Fill>\n");
+        stringBuilder.append("         </sld:TextSymbolizer>\n");
+
+        return stringBuilder.toString();
     }
 
     public String getLabel() {

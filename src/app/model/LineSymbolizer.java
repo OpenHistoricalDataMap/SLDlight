@@ -14,6 +14,21 @@ public class LineSymbolizer implements Symbolizer {
         perpendicularOffset = attributes[3];
     }
 
+    public String toSLD(){
+        StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append("         <sld:LineSymbolizer>\n");
+        stringBuilder.append("          <sld:Stroke>\n");
+        stringBuilder.append("           <sld:CssParameter name=\"stroke\">" + getStroke() + "</sld:CssParameter>\n");
+        stringBuilder.append("           <sld:CssParameter name=\"stroke-width\">" + getStrokeWidth() + "</sld:CssParameter>\n");
+        stringBuilder.append("           <sld:CssParameter name=\"stroke-dasharray\">" + getStrokeDashArray() + "</sld:CssParameter>\n");
+        stringBuilder.append("          </sld:stroke>\n");
+        stringBuilder.append("          <sld:PerpendicularOffset>" + getPerpendicularOffset() + "</sld:PerpendicularOffset>\n");
+        stringBuilder.append("         </sld:LineSymbolizer>\n");
+
+        return stringBuilder.toString();
+    }
+
     public String getStroke() {
         return stroke;
     }
@@ -45,4 +60,5 @@ public class LineSymbolizer implements Symbolizer {
     public void setPerpendicularOffset(String perpendicularOffset) {
         this.perpendicularOffset = perpendicularOffset;
     }
+
 }
