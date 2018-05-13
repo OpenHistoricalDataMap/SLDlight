@@ -27,8 +27,11 @@ public class EditorPane extends ScrollPane {
 
     // TODO min max zoom und filter vor andere dinger schieben, weil nur 1 pro regel
 
-    public EditorPane() {
+    private PreviewPane previewPane;
+
+    public EditorPane(PreviewPane previewPane) {
         super();
+        this.previewPane = previewPane;
 
         GridPane gridPane = new GridPane();
 
@@ -209,22 +212,22 @@ public class EditorPane extends ScrollPane {
         Label displacementYLabel = new Label("Verschiebung Y");
         TextField displacementYText = new SmallTextField("0");
 
-        pane.add(labelLabel, 2,1);
-        pane.add(labelText, 3,1);
-        pane.add(fontSizeLabel, 4,1);
-        pane.add(fontSizeText, 5,1);
-        pane.add(fontWeightLabel, 6,1);
-        pane.add(fontWeightBox, 7,1);
-        pane.add(fillLabel, 8,1);
-        pane.add(fillText, 9,1);
-        pane.add(anchorXLabel, 2,2);
-        pane.add(anchorXText, 3,2);
-        pane.add(anchorYLabel, 4,2);
-        pane.add(anchorYText, 5,2);
-        pane.add(displacementXLabel, 6,2);
-        pane.add(displacementXText, 7,2);
-        pane.add(displacementYLabel, 8,2);
-        pane.add(displacementYText, 9,2);
+        pane.add(labelLabel, 2, 1);
+        pane.add(labelText, 3, 1);
+        pane.add(fontSizeLabel, 4, 1);
+        pane.add(fontSizeText, 5, 1);
+        pane.add(fontWeightLabel, 6, 1);
+        pane.add(fontWeightBox, 7, 1);
+        pane.add(fillLabel, 8, 1);
+        pane.add(fillText, 9, 1);
+        pane.add(anchorXLabel, 2, 2);
+        pane.add(anchorXText, 3, 2);
+        pane.add(anchorYLabel, 4, 2);
+        pane.add(anchorYText, 5, 2);
+        pane.add(displacementXLabel, 6, 2);
+        pane.add(displacementXText, 7, 2);
+        pane.add(displacementYLabel, 8, 2);
+        pane.add(displacementYText, 9, 2);
 
     }
 

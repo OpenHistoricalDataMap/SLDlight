@@ -1,20 +1,18 @@
 package app;
 
-import app.pane.EditorPane;
+import app.pane.ParentPane;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class EditorApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        EditorPane editorPane = new EditorPane();
+        ParentPane pane = new ParentPane();
 
         primaryStage.setTitle("SLDLight Editor");
-        Scene scene = new Scene(editorPane, 1000, 600);
+        Scene scene = new Scene(pane, 1200, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
