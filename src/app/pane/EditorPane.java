@@ -1,6 +1,6 @@
 package app.pane;
 
-import app.components.SmallTextField;
+import app.ui.SmallTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -49,7 +49,7 @@ public class EditorPane extends ScrollPane {
         GridPane pane = new GridPane();
         pane.setVgap(10);
         pane.setHgap(10);
-        // create name components
+        // create name ui
         Label nameLabel = new Label("Name");
         TextField nameTextField = new TextField();
 
@@ -78,12 +78,12 @@ public class EditorPane extends ScrollPane {
         Label filterLabel = new Label("Filter");
         SmallTextField filterTextField = new SmallTextField("");
 
-        // add listener to typeBox after components have been initialized
+        // add listener to typeBox after ui have been initialized
         typeBox.getSelectionModel().selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {
                     if (oldValue != null) {
                         String value = (String) oldValue;
-                        // remove unnecessary components based in oldvalue
+                        // remove unnecessary ui based in oldvalue
                         switch (value) {
                             case "Polygon":
                                 removeAdditionalItemsFrom(pane);
@@ -101,7 +101,7 @@ public class EditorPane extends ScrollPane {
                     }
 
                     String value = (String) newValue;
-                    // add components based on new value
+                    // add ui based on new value
                     switch (value) {
                         case "Polygon":
                             addPolygonItemsTo(pane);
