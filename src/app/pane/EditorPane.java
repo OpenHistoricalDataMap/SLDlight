@@ -84,7 +84,8 @@ public class EditorPane extends ScrollPane {
             namedLayer.addRule(rulePane.getRule(namedLayerName.getText()));
         }
 
-        previewPane.setSldPreviewText(namedLayer.toSLD());
+        previewPane.showSLDLightPreviewText(namedLayer.toSLD());
+        previewPane.showSLDPreviewText(namedLayer.toSLD());
     }
 
     private void addRulePane() {
