@@ -4,7 +4,10 @@ public class PointSymbolizer implements Symbolizer {
 
     private String wellKnownName, fill, size;
 
-    public PointSymbolizer(String line){
+    public PointSymbolizer() {
+    }
+
+    public PointSymbolizer(String line) {
         String trim = line.substring("Point(".length(), line.length() - 1);
         String[] attributes = trim.split(",");
 
@@ -13,7 +16,8 @@ public class PointSymbolizer implements Symbolizer {
         size = attributes[2];
     }
 
-    public String toSLD(){
+
+    public String toSLD() {
         StringBuilder stringBuilder = new StringBuilder();
 
         stringBuilder.append("       <sld:PointSymbolizer>\n");

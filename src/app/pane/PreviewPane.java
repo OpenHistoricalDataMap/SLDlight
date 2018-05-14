@@ -21,7 +21,7 @@ public class PreviewPane extends ScrollPane {
 
         sldPreviewText = new Text();
         sldPreviewText.setFont(new Font(12));
-        sldPreviewText.setWrappingWidth(400);
+        sldPreviewText.setWrappingWidth(500);
         sldPreviewText.setText("The quick brown fox jumps over the lazy dog");
 
         gridPane.add(headline, 0, 0);

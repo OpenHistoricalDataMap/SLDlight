@@ -15,6 +15,14 @@ public class Zoom {
 
     }
 
+    public Zoom(int minScale, int maxScale) {
+        this.minScaleNumber = Integer.toString(minScale);
+        this.maxScaleNumber = Integer.toString(maxScale);
+
+        minScaleDenominator = getScaleDenominatorForZoomLevel(minScaleNumber);
+        maxScaleDenominator = getScaleDenominatorForZoomLevel(maxScaleNumber);
+    }
+
     private String getScaleDenominatorForZoomLevel(String string) {
         int level = Integer.parseInt(string);
         String denominator = null;

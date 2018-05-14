@@ -4,7 +4,11 @@ public class PolygonSymbolizer implements Symbolizer {
 
     private String fill, fillOpacity, stroke, strokeWidth, strokeDashArray;
 
-    public PolygonSymbolizer(String line){
+    public PolygonSymbolizer() {
+
+    }
+
+    public PolygonSymbolizer(String line) {
         String trim = line.substring("Polygon(".length(), line.length() - 1);
         String[] attributes = trim.split(",");
 
@@ -15,7 +19,7 @@ public class PolygonSymbolizer implements Symbolizer {
         strokeDashArray = attributes[4];
     }
 
-    public String toSLD(){
+    public String toSLD() {
         StringBuilder stringBuilder = new StringBuilder();
 
         stringBuilder.append("        <sld:PolygonSymbolizer>\n");

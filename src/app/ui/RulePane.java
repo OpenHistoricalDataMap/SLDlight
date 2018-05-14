@@ -1,5 +1,8 @@
 package app.ui;
 
+import app.model.Filter;
+import app.model.Rule;
+import app.model.Zoom;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -26,19 +29,28 @@ public class RulePane extends GridPane {
     // used for childpanes; starts with two because of rule controls
     private int rowIndex = 2;
 
-    public RulePane() {
+    // used to give rule a name for sld
+    private int nameIndex;
+
+
+    private ChoiceBox minZoomBox, maxZoomBox;
+    private SmallTextField filterText;
+
+    public RulePane(int nameIndex) {
+        this.nameIndex = nameIndex;
+
         setVgap(10);
         setHgap(10);
         setPadding(new Insets(20, 10, 20, 10));
 
 
         Label minZoomLabel = new Label("min Zoom");
-        ChoiceBox minZoomBox = new ChoiceBox(zoomList);
+        minZoomBox = new ChoiceBox(zoomList);
         Label maxZoomLabel = new Label("max Zoom");
-        ChoiceBox maxZoomBox = new ChoiceBox(zoomList);
+        maxZoomBox = new ChoiceBox(zoomList);
 
         Label filterLabel = new Label("Filter");
-        SmallTextField filterTextField = new SmallTextField("");
+        filterText = new SmallTextField("");
 
         Label typeLabel = new Label("Typ");
         ChoiceBox typeBox = new ChoiceBox(typeList);
@@ -129,10 +141,26 @@ public class RulePane extends GridPane {
         add(maxZoomLabel, 2, 0);
         add(maxZoomBox, 3, 0);
         add(filterLabel, 4, 0);
-        add(filterTextField, 5, 0);
+        add(filterText, 5, 0);
         add(typeBox, 0, 1);
         add(addSymbolizerButton, 1, 1);
     }
 
 
+    public Rule getRule(String namedLayerName) {
+        Rule rule = new Rule(namedLayerName + "_rule_" + nameIndex);
+        Zoom zoom = new Zoom((Integer) minZoomBox.getSelectionModel().getSelectedItem(),
+                (Integer) maxZoomBox.getSelectionModel().getSelectedItem());
+        rule.setZoom(zoom);
+        rule.setFilter(new Filter(filterText.getText()));
+
+        if (polygonPane != null) {
+            rule.addSymbolizer(polygonPane.toSymbolizer());
+        }
+        if (pointPane != null) {
+            rule.addSymbolizer(pointPane.toSymbolizer());
+        }
+
+        return rule;
+    }
 }

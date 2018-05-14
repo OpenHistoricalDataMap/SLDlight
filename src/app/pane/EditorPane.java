@@ -1,5 +1,6 @@
 package app.pane;
 
+import app.model.NamedLayer;
 import app.ui.PolygonPane;
 import app.ui.RulePane;
 import javafx.event.ActionEvent;
@@ -23,6 +24,8 @@ public class EditorPane extends ScrollPane {
 
     private PreviewPane previewPane;
     private GridPane contentPane;
+
+    private TextField namedLayerName;
 
     public EditorPane(PreviewPane previewPane) {
         super();
@@ -48,7 +51,7 @@ public class EditorPane extends ScrollPane {
         pane.setHgap(10);
         // create name ui
         Label nameLabel = new Label("Name");
-        TextField nameTextField = new TextField();
+        namedLayerName = new TextField();
 
         Button addRuleButton = new Button("Regel hinzufügen");
         addRuleButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -68,7 +71,7 @@ public class EditorPane extends ScrollPane {
 
 
         pane.add(nameLabel, 0, 0);
-        pane.add(nameTextField, 1, 0);
+        pane.add(namedLayerName, 1, 0);
         pane.add(addRuleButton, 2, 0);
         pane.add(showPreviewButton, 3, 0);
 
@@ -76,11 +79,16 @@ public class EditorPane extends ScrollPane {
     }
 
     private void showPreview() {
-        previewPane.setSldPreviewText("Test");
+        NamedLayer namedLayer = new NamedLayer(namedLayerName.getText());
+        for (RulePane rulePane : rulePanes) {
+            namedLayer.addRule(rulePane.getRule(namedLayerName.getText()));
+        }
+
+        previewPane.setSldPreviewText(namedLayer.toSLD());
     }
 
     private void addRulePane() {
-        RulePane rulePane = new RulePane();
+        RulePane rulePane = new RulePane(rulePanes.size());
         rulePanes.add(rulePane);
 
         Button removeRuleButton = new Button("Regel löschen");
