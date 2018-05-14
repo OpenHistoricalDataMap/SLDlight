@@ -1,49 +1,49 @@
 package app.pane;
 
+import app.ui.PolygonPane;
+import app.ui.RulePane;
 import app.ui.SmallTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class EditorPane extends ScrollPane {
 
-    private static final int COUNT_OF_STANDARD_ITEMS_PER_ROW = 8;
+    private static final int COUNT_OF_STANDARD_ITEMS_PER_ROW = 2;
 
-    static final ObservableList typeList = FXCollections.observableArrayList(
-            "Polygon", "Line", "Point", "Text");
-    static final ObservableList fontFamilyList = FXCollections.observableArrayList(
-            "Times New Roman", "Arial");
     static final ObservableList fontWeightList = FXCollections.observableArrayList(
             "Normal", "Bold");
 
-    static final ObservableList<Integer> zoomList = FXCollections.observableArrayList(
-            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
 
-    // TODO min max zoom und filter vor andere dinger schieben, weil nur 1 pro regel
+    private List<RulePane> rulePanes = new ArrayList<>();
+    private List<PolygonPane> polygonPanes = new ArrayList<>();
 
     private PreviewPane previewPane;
+    private GridPane contentPane;
 
     public EditorPane(PreviewPane previewPane) {
         super();
         this.previewPane = previewPane;
 
-        GridPane gridPane = new GridPane();
+        contentPane = new GridPane();
 
-        gridPane.add(createGlobalControls(), 0, 0);
-        gridPane.add(createSubsetRow(), 0, 1);
+        contentPane.add(createGlobalControls(), 0, 0);
 
         // Set content for ScrollPane
-        setContent(gridPane);
+        setContent(contentPane);
         // Always show vertical scroll bar
-        setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
         // Horizontal scroll bar is only displayed when needed
-        setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
         setPadding(new Insets(10, 10, 10, 10));
     }
 
@@ -56,93 +56,42 @@ public class EditorPane extends ScrollPane {
         Label nameLabel = new Label("Name");
         TextField nameTextField = new TextField();
 
+        Button addRuleButton = new Button("Regel hinzufügen");
+        addRuleButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                addRulePane();
+            }
+        });
+
 
         pane.add(nameLabel, 0, 0);
         pane.add(nameTextField, 1, 0);
+        pane.add(addRuleButton, 2, 0);
 
         return pane;
     }
 
-    private GridPane createSubsetRow() {
-        GridPane pane = new GridPane();
+    private void addRulePane() {
+        RulePane rulePane = new RulePane();
+        rulePanes.add(rulePane);
 
-        pane.setPadding(new Insets(20, 20, 20, 20));
-        pane.setHgap(10);
-        pane.setVgap(5);
+        Button removeRuleButton = new Button("Regel löschen");
+        removeRuleButton.setAlignment(Pos.CENTER);
+        removeRuleButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                rulePanes.remove(rulePane);
+                contentPane.getChildren().remove(rulePane);
+                contentPane.getChildren().remove(removeRuleButton);
+            }
+        });
+        contentPane.add(rulePane, 0, rulePanes.size(), 1, 1);
+        contentPane.add(removeRuleButton, 1, rulePanes.size(), 1, 1);
 
-        Label typeLabel = new Label("Typ");
-        ChoiceBox typeBox = new ChoiceBox(typeList);
-
-        Label minZoomLabel = new Label("min Zoom");
-        ChoiceBox minZoomBox = new ChoiceBox(zoomList);
-        Label maxZoomLabel = new Label("max Zoom");
-        ChoiceBox maxZoomBox = new ChoiceBox(zoomList);
-
-        Label filterLabel = new Label("Filter");
-        SmallTextField filterTextField = new SmallTextField("");
-
-        // add listener to typeBox after ui have been initialized
-        typeBox.getSelectionModel().selectedItemProperty()
-                .addListener((observable, oldValue, newValue) -> {
-                    if (oldValue != null) {
-                        String value = (String) oldValue;
-                        // remove unnecessary ui based in oldvalue
-                        switch (value) {
-                            case "Polygon":
-                                removeAdditionalItemsFrom(pane);
-                                break;
-                            case "Point":
-                                removeAdditionalItemsFrom(pane);
-                                break;
-                            case "Line":
-                                removeAdditionalItemsFrom(pane);
-                                break;
-                            case "Text":
-                                removeAdditionalItemsFrom(pane);
-                                break;
-                        }
-                    }
-
-                    String value = (String) newValue;
-                    // add ui based on new value
-                    switch (value) {
-                        case "Polygon":
-                            addPolygonItemsTo(pane);
-
-                            break;
-                        case "Point":
-                            addPointItemsTo(pane);
-                            break;
-                        case "Line":
-
-                            break;
-                        case "Text":
-                            addTextItemsTo(pane);
-
-                            break;
-                    }
-                });
-
-
-        pane.add(typeLabel, 0, 0);
-        pane.add(typeBox, 1, 0);
-        pane.add(minZoomLabel, 2, 0);
-        pane.add(minZoomBox, 3, 0);
-        pane.add(maxZoomLabel, 4, 0);
-        pane.add(maxZoomBox, 5, 0);
-        pane.add(filterLabel, 6, 0);
-        pane.add(filterTextField, 7, 0);
-
-        return pane;
     }
 
-    private void addPolygonItemsTo(GridPane pane) {
-        Label fillLabel = new Label("Füllfarbe");
-        SmallTextField fillText = new SmallTextField("#000000");
-
-        Label fillOpacityLabel = new Label("Deckkraft der Farbe");
-        SmallTextField fillOpacityText = new SmallTextField("1.0");
-
+    private void addLineItemsTo(GridPane pane) {
         Label strokeLabel = new Label("Strichfarbe");
         SmallTextField strokeText = new SmallTextField("#000000");
 
@@ -152,40 +101,25 @@ public class EditorPane extends ScrollPane {
         Label strokeDashLabel = new Label("Strich-Muster");
         SmallTextField strokeDashText = new SmallTextField("5 2");
 
-        pane.add(fillLabel, 2, 1);
-        pane.add(fillText, 3, 1);
-        pane.add(fillOpacityLabel, 4, 1);
-        pane.add(fillOpacityText, 5, 1);
-        pane.add(strokeLabel, 2, 2);
-        pane.add(strokeText, 3, 2);
-        pane.add(strokeWidthLabel, 4, 2);
-        pane.add(strokeWidthText, 5, 2);
-        pane.add(strokeDashLabel, 6, 2);
-        pane.add(strokeDashText, 7, 2);
+        Label offsetLabel = new Label("Senkrechte Verschiebung");
+        SmallTextField offsetText = new SmallTextField("5 2");
+
+        pane.add(strokeLabel, 2, 1);
+        pane.add(strokeText, 3, 1);
+        pane.add(strokeWidthLabel, 4, 1);
+        pane.add(strokeWidthText, 5, 1);
+        pane.add(strokeDashLabel, 2, 2);
+        pane.add(strokeDashText, 3, 2);
+        pane.add(offsetLabel, 4, 2);
+        pane.add(offsetText, 5, 2);
     }
 
+    // removes items from symbolizer row
     private void removeAdditionalItemsFrom(GridPane pane) {
         pane.getChildren().remove(COUNT_OF_STANDARD_ITEMS_PER_ROW, pane.getChildren().size());
 
     }
 
-    private void addPointItemsTo(GridPane pane) {
-        Label graphicNameLabel = new Label("Form");
-        SmallTextField graphicNameText = new SmallTextField("circle");
-
-        Label fillLabel = new Label("Füllfarbe");
-        SmallTextField fillText = new SmallTextField("#000000");
-
-        Label sizeLabel = new Label("Größe");
-        SmallTextField sizeText = new SmallTextField("3");
-
-        pane.add(graphicNameLabel, 2, 1);
-        pane.add(graphicNameText, 3, 1);
-        pane.add(fillLabel, 4, 1);
-        pane.add(fillText, 5, 1);
-        pane.add(sizeLabel, 6, 1);
-        pane.add(sizeText, 7, 1);
-    }
 
     private void addTextItemsTo(GridPane pane) {
         Label labelLabel = new Label("Label");
@@ -216,18 +150,18 @@ public class EditorPane extends ScrollPane {
         pane.add(labelText, 3, 1);
         pane.add(fontSizeLabel, 4, 1);
         pane.add(fontSizeText, 5, 1);
-        pane.add(fontWeightLabel, 6, 1);
-        pane.add(fontWeightBox, 7, 1);
-        pane.add(fillLabel, 8, 1);
-        pane.add(fillText, 9, 1);
-        pane.add(anchorXLabel, 2, 2);
-        pane.add(anchorXText, 3, 2);
-        pane.add(anchorYLabel, 4, 2);
-        pane.add(anchorYText, 5, 2);
-        pane.add(displacementXLabel, 6, 2);
-        pane.add(displacementXText, 7, 2);
-        pane.add(displacementYLabel, 8, 2);
-        pane.add(displacementYText, 9, 2);
+        pane.add(fontWeightLabel, 2, 2);
+        pane.add(fontWeightBox, 3, 2);
+        pane.add(fillLabel, 4, 2);
+        pane.add(fillText, 5, 2);
+        pane.add(anchorXLabel, 2, 3);
+        pane.add(anchorXText, 3, 3);
+        pane.add(anchorYLabel, 4, 3);
+        pane.add(anchorYText, 5, 3);
+        pane.add(displacementXLabel, 2, 4);
+        pane.add(displacementXText, 3, 4);
+        pane.add(displacementYLabel, 4, 4);
+        pane.add(displacementYText, 5, 4);
 
     }
 

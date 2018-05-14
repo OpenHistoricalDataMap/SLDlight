@@ -27,4 +27,8 @@ public class PreviewPane extends ScrollPane {
         gridPane.add(headline, 0, 0);
         gridPane.add(sldPreviewText, 0, 1);
     }
+
+    public void setSldPreviewText(String text) {
+        sldPreviewText.setText(text);
+    }
 }
