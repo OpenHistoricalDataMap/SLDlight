@@ -1,6 +1,10 @@
 package app.io;
 
 import app.model.*;
+import app.model.symbolizer.LineSymbolizer;
+import app.model.symbolizer.PointSymbolizer;
+import app.model.symbolizer.PolygonSymbolizer;
+import app.model.symbolizer.TextSymbolizer;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

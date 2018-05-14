@@ -1,7 +1,7 @@
 package app.ui;
 
-import app.model.PointSymbolizer;
-import app.model.Symbolizer;
+import app.model.symbolizer.PointSymbolizer;
+import app.model.symbolizer.Symbolizer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;

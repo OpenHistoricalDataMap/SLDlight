@@ -1,4 +1,4 @@
-package app.model;
+package app.model.symbolizer;
 
 public class LineSymbolizer implements Symbolizer {
 

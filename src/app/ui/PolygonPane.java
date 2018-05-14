@@ -1,7 +1,7 @@
 package app.ui;
 
-import app.model.PolygonSymbolizer;
-import app.model.Symbolizer;
+import app.model.symbolizer.PolygonSymbolizer;
+import app.model.symbolizer.Symbolizer;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;

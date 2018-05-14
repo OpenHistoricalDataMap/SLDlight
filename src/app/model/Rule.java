@@ -1,5 +1,7 @@
 package app.model;
 
+import app.model.symbolizer.Symbolizer;
+
 import java.util.ArrayList;
 import java.util.List;
 
