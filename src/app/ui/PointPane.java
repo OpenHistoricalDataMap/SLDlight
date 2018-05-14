@@ -19,7 +19,7 @@ public class PointPane extends GridPane {
         setHgap(5);
         setVgap(5);
 
-        Label titleLabel = new Label("Point");
+        Label titleLabel = new Label("Punkt");
         titleLabel.setFont(new Font(15));
 
         Label graphicNameLabel = new Label("Form");

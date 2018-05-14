@@ -17,10 +17,13 @@ public class RulePane extends GridPane {
 
 
     static final ObservableList typeList = FXCollections.observableArrayList(
-            "Polygon", "Line", "Point", "Text");
+            "Polygon", "Linie", "Punkt", "Text");
 
     private PolygonPane polygonPane;
     private PointPane pointPane;
+    private LinePane linePane;
+    private TextPane textPane;
+    // used for childpanes; starts with two because of rule controls
     private int rowIndex = 2;
 
     public RulePane() {
@@ -62,10 +65,25 @@ public class RulePane extends GridPane {
                             add(removePolygonPaneButton, 0, rowIndex);
                             add(polygonPane, 1, rowIndex++, 8, 1);
                         }
-                    case "Line":
-
                         break;
-                    case "Point":
+                    case "Linie":
+                        if (linePane == null) {
+                            linePane = new LinePane();
+                            Button removeLinePaneButton = new Button("Löschen");
+                            removeLinePaneButton.setOnAction(new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent event) {
+                                    getChildren().remove(linePane);
+                                    getChildren().remove(removeLinePaneButton);
+                                    linePane = null;
+                                    rowIndex--;
+                                }
+                            });
+                            add(removeLinePaneButton, 0, rowIndex);
+                            add(linePane, 1, rowIndex++, 8, 1);
+                        }
+                        break;
+                    case "Punkt":
                         if (pointPane == null) {
                             pointPane = new PointPane();
                             Button removePointPaneButton = new Button("Löschen");
@@ -83,6 +101,21 @@ public class RulePane extends GridPane {
                         }
                         break;
                     case "Text":
+                        if (textPane == null) {
+                            textPane = new TextPane();
+                            Button removeTextPaneButton = new Button("Löschen");
+                            removeTextPaneButton.setOnAction(new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent event) {
+                                    getChildren().remove(textPane);
+                                    getChildren().remove(removeTextPaneButton);
+                                    textPane = null;
+                                    rowIndex--;
+                                }
+                            });
+                            add(removeTextPaneButton, 0, rowIndex);
+                            add(textPane, 1, rowIndex++, 8, 1);
+                        }
                         break;
                     default:
                         break;
