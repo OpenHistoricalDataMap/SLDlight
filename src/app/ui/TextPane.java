@@ -31,6 +31,7 @@ public class TextPane extends GridPane {
 
         Label fontWeightLabel = new Label("Schriftstil");
         ChoiceBox fontWeightBox = new ChoiceBox(fontWeightList);
+        fontWeightBox.getSelectionModel().select(0);
 
         Label fillLabel = new Label("Farbe");
         TextField fillText = new SmallTextField("#000000");

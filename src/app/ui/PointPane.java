@@ -29,6 +29,7 @@ public class PointPane extends GridPane {
 
         Label graphicNameLabel = new Label("Form");
         graphicNameBox = new ChoiceBox(wellKnownNameList);
+        graphicNameBox.getSelectionModel().select(0);
 
         Label fillLabel = new Label("Füllfarbe");
         fillText = new SmallTextField("#000000");

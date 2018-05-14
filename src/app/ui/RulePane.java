@@ -46,14 +46,17 @@ public class RulePane extends GridPane {
 
         Label minZoomLabel = new Label("min Zoom");
         minZoomBox = new ChoiceBox(zoomList);
+        minZoomBox.getSelectionModel().select(0);
         Label maxZoomLabel = new Label("max Zoom");
         maxZoomBox = new ChoiceBox(zoomList);
+        maxZoomBox.getSelectionModel().select(0);
 
         Label filterLabel = new Label("Filter");
         filterText = new SmallTextField("");
 
         Label typeLabel = new Label("Typ");
         ChoiceBox typeBox = new ChoiceBox(typeList);
+        typeBox.getSelectionModel().select(0);
         Button addSymbolizerButton = new Button("Objekt hinzufügen");
         addSymbolizerButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override

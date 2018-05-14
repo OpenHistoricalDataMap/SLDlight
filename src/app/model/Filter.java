@@ -9,17 +9,21 @@ public class Filter {
     }
 
     public String toSLD() {
-        StringBuilder stringBuilder = new StringBuilder();
+        if (propertyEqualTo == null || propertyEqualTo.equals("")) {
+            return "";
+        } else {
+            StringBuilder stringBuilder = new StringBuilder();
 
-        stringBuilder.append("        <ogc:Filter>\n");
-        stringBuilder.append("         <ogc:PropertyIsEqualTo>\n");
-        stringBuilder.append("          <ogc:PropertyName>subclassname</ogc:PropertyName>\n");
-        stringBuilder.append("          <ogc:Literal>" + getPropertyEqualTo() + "</ogc:Literal>\n");
-        stringBuilder.append("         </ogc:PropertyIsEqualTo>\n");
-        stringBuilder.append("        </ogc:Filter>\n");
+            stringBuilder.append("        <ogc:Filter>\n");
+            stringBuilder.append("         <ogc:PropertyIsEqualTo>\n");
+            stringBuilder.append("          <ogc:PropertyName>subclassname</ogc:PropertyName>\n");
+            stringBuilder.append("          <ogc:Literal>" + getPropertyEqualTo() + "</ogc:Literal>\n");
+            stringBuilder.append("         </ogc:PropertyIsEqualTo>\n");
+            stringBuilder.append("        </ogc:Filter>\n");
 
 
-        return stringBuilder.toString();
+            return stringBuilder.toString();
+        }
     }
 
     public String getPropertyEqualTo() {
