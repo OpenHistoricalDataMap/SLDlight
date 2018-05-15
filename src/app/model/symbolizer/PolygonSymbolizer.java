@@ -37,6 +37,14 @@ public class PolygonSymbolizer implements Symbolizer {
         return stringBuilder.toString();
     }
 
+    public String toSLDLight() {
+        return "Polygon(" + getFill() + ","
+                + getFillOpacity() + ","
+                + getStroke() + ","
+                + getStrokeWidth() + ","
+                + getStrokeDashArray() + ")";
+    }
+
     public String getFill() {
         return fill;
     }

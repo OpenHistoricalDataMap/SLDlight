@@ -96,4 +96,8 @@ public class Zoom {
 
         return stringBuilder.toString();
     }
+
+    public String toSLDLight() {
+        return minScaleNumber + "-" + maxScaleNumber;
+    }
 }

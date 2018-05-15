@@ -1,11 +1,12 @@
 package app.ui;
 
+import app.model.symbolizer.Symbolizer;
+import app.model.symbolizer.TextSymbolizer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 
@@ -14,6 +15,9 @@ public class TextPane extends GridPane {
 
     static final ObservableList fontWeightList = FXCollections.observableArrayList(
             "Normal", "Bold");
+
+    private SmallTextField labelText, fontSizeText, fillText, anchorXText, anchorYText, displacementXText, displacementYText;
+    private ChoiceBox fontWeightBox;
 
     public TextPane() {
         setPadding(new Insets(20, 20, 20, 20));
@@ -24,29 +28,29 @@ public class TextPane extends GridPane {
         titleLabel.setFont(new Font(15));
 
         Label labelLabel = new Label("Label");
-        TextField labelText = new SmallTextField("");
+        labelText = new SmallTextField("Label");
 
         Label fontSizeLabel = new Label("Schriftgröße");
-        TextField fontSizeText = new SmallTextField("12");
+        fontSizeText = new SmallTextField("12");
 
         Label fontWeightLabel = new Label("Schriftstil");
-        ChoiceBox fontWeightBox = new ChoiceBox(fontWeightList);
+        fontWeightBox = new ChoiceBox(fontWeightList);
         fontWeightBox.getSelectionModel().select(0);
 
         Label fillLabel = new Label("Farbe");
-        TextField fillText = new SmallTextField("#000000");
+        fillText = new SmallTextField("#000000");
 
         Label anchorXLabel = new Label("Ankerpunkt X");
-        TextField anchorXText = new SmallTextField("0");
+        anchorXText = new SmallTextField("0");
 
         Label anchorYLabel = new Label("Ankerpunkt Y");
-        TextField anchorYText = new SmallTextField("0");
+        anchorYText = new SmallTextField("0");
 
         Label displacementXLabel = new Label("Verschiebung X");
-        TextField displacementXText = new SmallTextField("0");
+        displacementXText = new SmallTextField("0");
 
         Label displacementYLabel = new Label("Verschiebung Y");
-        TextField displacementYText = new SmallTextField("0");
+        displacementYText = new SmallTextField("0");
 
         add(titleLabel, 0, 0);
         add(labelLabel, 1, 1);
@@ -65,5 +69,18 @@ public class TextPane extends GridPane {
         add(displacementXText, 2, 4);
         add(displacementYLabel, 3, 4);
         add(displacementYText, 4, 4);
+    }
+
+    public Symbolizer toSymbolizer() {
+        TextSymbolizer textSymbolizer = new TextSymbolizer();
+        textSymbolizer.setLabel(labelText.getText());
+        textSymbolizer.setFontSize(fontSizeText.getText());
+        textSymbolizer.setFontWeight((String) fontWeightBox.getSelectionModel().getSelectedItem());
+        textSymbolizer.setFill(fillText.getText());
+        textSymbolizer.setAnchorPointX(anchorXText.getText());
+        textSymbolizer.setAnchorPointY(anchorYText.getText());
+        textSymbolizer.setDisplacementX(displacementXText.getText());
+        textSymbolizer.setDisplacementY(displacementYText.getText());
+        return textSymbolizer;
     }
 }

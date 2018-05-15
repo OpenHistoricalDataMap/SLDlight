@@ -40,6 +40,18 @@ public class NamedLayer {
         return stringBuilder.toString();
     }
 
+    public String toSLDLight() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append(name + "\n");
+
+        for (Rule rule : rules) {
+            stringBuilder.append(rule.toSLDLight());
+        }
+
+        return stringBuilder.toString();
+    }
+
     public void addRule(Rule rule) {
         rules.add(rule);
     }

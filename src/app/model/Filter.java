@@ -26,6 +26,10 @@ public class Filter {
         }
     }
 
+    public String toSLDLight() {
+        return propertyEqualTo;
+    }
+
     public String getPropertyEqualTo() {
         return propertyEqualTo;
     }
@@ -33,4 +37,6 @@ public class Filter {
     public void setPropertyEqualTo(String propertyEqualTo) {
         this.propertyEqualTo = propertyEqualTo;
     }
+
+
 }

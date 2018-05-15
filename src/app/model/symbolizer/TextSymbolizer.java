@@ -4,6 +4,10 @@ public class TextSymbolizer implements Symbolizer {
 
     private String label, fontSize, fontWeight, fill, anchorPointX, anchorPointY, displacementX, displacementY;
 
+    public TextSymbolizer() {
+
+    }
+
     public TextSymbolizer(String line) {
         String trim = line.substring("Line(".length(), line.length() - 1);
         String[] attributes = trim.split(",");
@@ -18,6 +22,7 @@ public class TextSymbolizer implements Symbolizer {
         displacementY = attributes[7];
     }
 
+
     public String toSLD() {
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -29,7 +34,7 @@ public class TextSymbolizer implements Symbolizer {
         stringBuilder.append("           <sld:CssParameter name=\"font-family\">Arial</sld:CssParameter>\n");
         stringBuilder.append("           <sld:CssParameter name=\"font-size\">" + getFontSize() + "</sld:CssParameter>\n");
         stringBuilder.append("           <sld:CssParameter name=\"font-style\">normal</sld:CssParameter>\n");
-        stringBuilder.append("           <sld:CssParameter name=\"font-weight\">" + fontWeight + "</sld:CssParameter>\n");
+        stringBuilder.append("           <sld:CssParameter name=\"font-weight\">" + getFontWeight() + "</sld:CssParameter>\n");
         stringBuilder.append("          </sld:Font>\n");
         stringBuilder.append("          <sld:LabelPlacement>\n");
         stringBuilder.append("           <sld:PointPlacement>\n");
@@ -49,6 +54,17 @@ public class TextSymbolizer implements Symbolizer {
         stringBuilder.append("         </sld:TextSymbolizer>\n");
 
         return stringBuilder.toString();
+    }
+
+    public String toSLDLight() {
+        return "Text(" + getLabel() + ","
+                + getFontSize() + ","
+                + getFontWeight() + ","
+                + getFill() + ","
+                + getAnchorPointX() + ","
+                + getAnchorPointY() + ","
+                + getDisplacementX() + ","
+                + getDisplacementY() + ")";
     }
 
     public String getLabel() {

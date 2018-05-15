@@ -1,11 +1,16 @@
 package app.ui;
 
+import app.model.symbolizer.LineSymbolizer;
+import app.model.symbolizer.Symbolizer;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 
 public class LinePane extends GridPane {
+
+    private SmallTextField strokeText, strokeWidthText, strokeDashText, offsetText;
+
 
     public LinePane() {
         setPadding(new Insets(20, 20, 20, 20));
@@ -16,16 +21,16 @@ public class LinePane extends GridPane {
         titleLabel.setFont(new Font(15));
 
         Label strokeLabel = new Label("Strichfarbe");
-        SmallTextField strokeText = new SmallTextField("#000000");
+        strokeText = new SmallTextField("#000000");
 
         Label strokeWidthLabel = new Label("Dicke des Striches");
-        SmallTextField strokeWidthText = new SmallTextField("1.0");
+        strokeWidthText = new SmallTextField("1.0");
 
         Label strokeDashLabel = new Label("Strich-Muster");
-        SmallTextField strokeDashText = new SmallTextField("5 2");
+        strokeDashText = new SmallTextField("5 2");
 
         Label offsetLabel = new Label("Senkrechte Verschiebung");
-        SmallTextField offsetText = new SmallTextField("0");
+        offsetText = new SmallTextField("0");
 
         add(titleLabel, 0, 0);
         add(strokeLabel, 1, 1);
@@ -36,5 +41,14 @@ public class LinePane extends GridPane {
         add(strokeDashText, 2, 2);
         add(offsetLabel, 3, 2);
         add(offsetText, 4, 2);
+    }
+
+    public Symbolizer toSymbolizer() {
+        LineSymbolizer lineSymbolizer = new LineSymbolizer();
+        lineSymbolizer.setStroke(strokeText.getText());
+        lineSymbolizer.setStrokeWidth(strokeWidthText.getText());
+        lineSymbolizer.setStrokeDashArray(strokeDashText.getText());
+        lineSymbolizer.setPerpendicularOffset(offsetText.getText());
+        return lineSymbolizer;
     }
 }

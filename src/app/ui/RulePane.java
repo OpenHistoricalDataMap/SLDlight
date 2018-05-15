@@ -163,6 +163,12 @@ public class RulePane extends GridPane {
         if (pointPane != null) {
             rule.addSymbolizer(pointPane.toSymbolizer());
         }
+        if (linePane != null) {
+            rule.addSymbolizer(linePane.toSymbolizer());
+        }
+        if (textPane != null){
+            rule.addSymbolizer(textPane.toSymbolizer());
+        }
 
         return rule;
     }

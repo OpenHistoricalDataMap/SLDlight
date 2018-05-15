@@ -35,6 +35,20 @@ public class Rule {
         return stringBuilder.toString();
     }
 
+    public String toSLDLight() {
+        StringBuilder stringBuilder = new StringBuilder();
+        if (filter.getPropertyEqualTo() != null && filter.getPropertyEqualTo().equals("") == false)
+            stringBuilder.append(filter.toSLDLight() + "\n");
+        if (zoom != null)
+            stringBuilder.append(zoom.toSLDLight() + "\n");
+
+        for (Symbolizer symbolizer : symbolizers) {
+            stringBuilder.append(symbolizer.toSLDLight() + "\n");
+        }
+
+        return stringBuilder.toString();
+    }
+
     public void addSymbolizer(Symbolizer symbolizer) {
         symbolizers.add(symbolizer);
     }

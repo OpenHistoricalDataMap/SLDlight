@@ -4,7 +4,11 @@ public class LineSymbolizer implements Symbolizer {
 
     private String stroke, strokeWidth, strokeDashArray, perpendicularOffset;
 
-    public LineSymbolizer(String line){
+    public LineSymbolizer() {
+
+    }
+
+    public LineSymbolizer(String line) {
         String trim = line.substring("Line(".length(), line.length() - 1);
         String[] attributes = trim.split(",");
 
@@ -14,7 +18,7 @@ public class LineSymbolizer implements Symbolizer {
         perpendicularOffset = attributes[3];
     }
 
-    public String toSLD(){
+    public String toSLD() {
         StringBuilder stringBuilder = new StringBuilder();
 
         stringBuilder.append("         <sld:LineSymbolizer>\n");
@@ -27,6 +31,13 @@ public class LineSymbolizer implements Symbolizer {
         stringBuilder.append("         </sld:LineSymbolizer>\n");
 
         return stringBuilder.toString();
+    }
+
+    public String toSLDLight() {
+        return "Line(" + getStroke() + ","
+                + getStrokeWidth() + ","
+                + getStrokeDashArray() + ","
+                + getPerpendicularOffset() + ")";
     }
 
     public String getStroke() {

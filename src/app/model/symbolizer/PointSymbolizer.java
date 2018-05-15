@@ -35,6 +35,13 @@ public class PointSymbolizer implements Symbolizer {
         return stringBuilder.toString();
     }
 
+    @Override
+    public String toSLDLight() {
+        return "Point(" + getWellKnownName() + ","
+                + getFill() + ","
+                + getSize() + ")";
+    }
+
     public String getWellKnownName() {
         return wellKnownName;
     }
