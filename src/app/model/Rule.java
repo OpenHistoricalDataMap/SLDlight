@@ -37,10 +37,10 @@ public class Rule {
 
     public String toSLDLight() {
         StringBuilder stringBuilder = new StringBuilder();
-        if (filter.getPropertyEqualTo() != null && filter.getPropertyEqualTo().equals("") == false)
-            stringBuilder.append(filter.toSLDLight() + "\n");
         if (zoom != null)
             stringBuilder.append(zoom.toSLDLight() + "\n");
+        if (filter.getPropertyEqualTo() != null && filter.getPropertyEqualTo().equals("") == false)
+            stringBuilder.append(filter.toSLDLight() + "\n");
 
         for (Symbolizer symbolizer : symbolizers) {
             stringBuilder.append(symbolizer.toSLDLight() + "\n");
@@ -75,5 +75,9 @@ public class Rule {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Symbolizer> getSymbolizers() {
+        return symbolizers;
     }
 }

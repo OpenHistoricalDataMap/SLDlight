@@ -1,6 +1,7 @@
 package app.ui;
 
 import app.model.NamedLayer;
+import app.model.Rule;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -75,7 +76,16 @@ public class EditorPane extends ScrollPane {
         return pane;
     }
 
-    private void showPreview() {
+
+    public void generateControlsFromNamedLayer(NamedLayer layer) {
+        namedLayerName.setText(layer.getName());
+        for (Rule rule : layer.getRules()) {
+            addRulePane(new RulePane(rule));
+        }
+
+    }
+
+    public void showPreview() {
         NamedLayer namedLayer = new NamedLayer(namedLayerName.getText());
         for (RulePane rulePane : rulePanes) {
             namedLayer.addRule(rulePane.getRule(namedLayerName.getText()));
@@ -83,6 +93,23 @@ public class EditorPane extends ScrollPane {
 
         previewPane.showSLDLightPreviewText(getSLDLightContent());
         previewPane.showSLDPreviewText(getSLDContent());
+    }
+
+    private void addRulePane(RulePane rulePane) {
+        rulePanes.add(rulePane);
+
+        Button removeRuleButton = new Button("Regel löschen");
+        removeRuleButton.setAlignment(Pos.CENTER);
+        removeRuleButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                rulePanes.remove(rulePane);
+                contentPane.getChildren().remove(rulePane);
+                contentPane.getChildren().remove(removeRuleButton);
+            }
+        });
+        contentPane.add(rulePane, 0, rulePanes.size(), 1, 1);
+        contentPane.add(removeRuleButton, 1, rulePanes.size(), 1, 1);
     }
 
     private void addRulePane() {

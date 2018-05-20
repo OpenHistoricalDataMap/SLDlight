@@ -1,6 +1,8 @@
 package app.ui;
 
+import app.io.MyFileReader;
 import app.io.MyFileWriter;
+import app.model.NamedLayer;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -34,7 +36,9 @@ public class ParentPane extends BorderPane {
             fileChooser.setTitle("Datei öffnen");
             File file = fileChooser.showOpenDialog(getScene().getWindow());
             if (file != null) {
-                //openFile(file);
+                NamedLayer layer = MyFileReader.parseNamedLayerFromSLDLight(file.getAbsolutePath());
+                editorPane.generateControlsFromNamedLayer(layer);
+                editorPane.showPreview();
             }
 
         });

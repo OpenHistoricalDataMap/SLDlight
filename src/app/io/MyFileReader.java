@@ -1,6 +1,9 @@
 package app.io;
 
-import app.model.*;
+import app.model.Filter;
+import app.model.NamedLayer;
+import app.model.Rule;
+import app.model.Zoom;
 import app.model.symbolizer.LineSymbolizer;
 import app.model.symbolizer.PointSymbolizer;
 import app.model.symbolizer.PolygonSymbolizer;
@@ -11,7 +14,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SLDLightFileReader {
+public class MyFileReader {
 
     public static final String ZOOM_REGEX = "\\d+-\\d+";
     public static final String POLYGON_REGEX = "Polygon([\\d|\\D]*)";
@@ -20,24 +23,12 @@ public class SLDLightFileReader {
     public static final String TEXT_REGEX = "Text([\\d|\\D]*)";
     public static final String NAME_REGEX = "[\\d|\\D]+";
 
-    private StringBuilder output;
-    private List<String> lines;
-
-    public SLDLightFileReader(String fileName) {
-        output = new StringBuilder();
-        try {
-            lines = readFileToList(fileName);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private List<String> readFileToList(String filename) throws Exception {
+    private static List<String> readFileToList(String fileName) throws Exception {
         String line = null;
         List<String> records = new ArrayList<String>();
 
         // wrap a BufferedReader around FileReader
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(filename));
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
 
         // use the readLine method of the BufferedReader to read one line at a time.
         // the readLine method returns null when there is nothing else to read.
@@ -50,7 +41,15 @@ public class SLDLightFileReader {
         return records;
     }
 
-    public NamedLayer parseNamedLayerFromSLDLight() {
+    public static NamedLayer parseNamedLayerFromSLDLight(String fileName) {
+        List<String> lines = null;
+        try {
+            lines = readFileToList(fileName);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
         NamedLayer namedLayer = null;
         Rule rule = null;
         int ruleCount = 0; // used to name rules

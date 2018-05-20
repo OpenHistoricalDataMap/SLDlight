@@ -43,6 +43,10 @@ public class LinePane extends GridPane {
         add(offsetText, 4, 2);
     }
 
+    public LinePane(LineSymbolizer symbolizer) {
+        this();
+    }
+
     public Symbolizer toSymbolizer() {
         LineSymbolizer lineSymbolizer = new LineSymbolizer();
         lineSymbolizer.setStroke(strokeText.getText());

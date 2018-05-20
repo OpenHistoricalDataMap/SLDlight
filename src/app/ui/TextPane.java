@@ -71,6 +71,10 @@ public class TextPane extends GridPane {
         add(displacementYText, 4, 4);
     }
 
+    public TextPane(TextSymbolizer symbolizer) {
+        this();
+    }
+
     public Symbolizer toSymbolizer() {
         TextSymbolizer textSymbolizer = new TextSymbolizer();
         textSymbolizer.setLabel(labelText.getText());

@@ -63,4 +63,8 @@ public class NamedLayer {
     public void setName(String name) {
         this.name = name;
     }
+
+    public List<Rule> getRules() {
+        return rules;
+    }
 }

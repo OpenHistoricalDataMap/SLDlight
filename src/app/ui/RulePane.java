@@ -3,6 +3,7 @@ package app.ui;
 import app.model.Filter;
 import app.model.Rule;
 import app.model.Zoom;
+import app.model.symbolizer.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -35,6 +36,28 @@ public class RulePane extends GridPane {
 
     private ChoiceBox minZoomBox, maxZoomBox;
     private SmallTextField filterText;
+
+    public RulePane(Rule rule) {
+        // nameindex is last value in rulename
+        this(Integer.parseInt(rule.getName().split("_")[rule.getName().split("_").length - 1]));
+
+        minZoomBox.getSelectionModel().select(Integer.parseInt(rule.getZoom().getMinScaleNumber()));
+        maxZoomBox.getSelectionModel().select(Integer.parseInt(rule.getZoom().getMaxScaleNumber()));
+
+        filterText.setText(rule.getFilter().getPropertyEqualTo());
+
+        for (Symbolizer symbolizer : rule.getSymbolizers()) {
+            if (symbolizer instanceof PolygonSymbolizer) {
+                polygonPane = new PolygonPane((PolygonSymbolizer) symbolizer);
+            } else if (symbolizer instanceof PointSymbolizer) {
+                pointPane = new PointPane((PointSymbolizer) symbolizer);
+            } else if (symbolizer instanceof LineSymbolizer) {
+                linePane = new LinePane((LineSymbolizer) symbolizer);
+            } else if (symbolizer instanceof TextSymbolizer) {
+                textPane = new TextPane((TextSymbolizer) symbolizer);
+            }
+        }
+    }
 
     public RulePane(int nameIndex) {
         this.nameIndex = nameIndex;
@@ -166,7 +189,7 @@ public class RulePane extends GridPane {
         if (linePane != null) {
             rule.addSymbolizer(linePane.toSymbolizer());
         }
-        if (textPane != null){
+        if (textPane != null) {
             rule.addSymbolizer(textPane.toSymbolizer());
         }
 

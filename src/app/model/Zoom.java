@@ -100,4 +100,12 @@ public class Zoom {
     public String toSLDLight() {
         return minScaleNumber + "-" + maxScaleNumber;
     }
+
+    public String getMinScaleNumber() {
+        return minScaleNumber;
+    }
+
+    public String getMaxScaleNumber() {
+        return maxScaleNumber;
+    }
 }

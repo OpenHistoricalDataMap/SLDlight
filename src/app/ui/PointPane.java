@@ -46,6 +46,11 @@ public class PointPane extends GridPane {
         add(sizeText, 6, 1);
     }
 
+    public PointPane(PointSymbolizer symbolizer) {
+        this();
+
+    }
+
     public Symbolizer toSymbolizer() {
         PointSymbolizer pointSymbolizer = new PointSymbolizer();
         pointSymbolizer.setFill(fillText.getText());
