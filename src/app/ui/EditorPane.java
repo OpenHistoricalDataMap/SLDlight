@@ -1,8 +1,6 @@
-package app.pane;
+package app.ui;
 
 import app.model.NamedLayer;
-import app.ui.PolygonPane;
-import app.ui.RulePane;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -20,7 +18,6 @@ import java.util.List;
 public class EditorPane extends ScrollPane {
 
     private List<RulePane> rulePanes = new ArrayList<>();
-    private List<PolygonPane> polygonPanes = new ArrayList<>();
 
     private PreviewPane previewPane;
     private GridPane contentPane;
@@ -84,8 +81,8 @@ public class EditorPane extends ScrollPane {
             namedLayer.addRule(rulePane.getRule(namedLayerName.getText()));
         }
 
-        previewPane.showSLDLightPreviewText(namedLayer.toSLDLight());
-        previewPane.showSLDPreviewText(namedLayer.toSLD());
+        previewPane.showSLDLightPreviewText(getSLDLightContent());
+        previewPane.showSLDPreviewText(getSLDContent());
     }
 
     private void addRulePane() {
@@ -104,6 +101,27 @@ public class EditorPane extends ScrollPane {
         });
         contentPane.add(rulePane, 0, rulePanes.size(), 1, 1);
         contentPane.add(removeRuleButton, 1, rulePanes.size(), 1, 1);
+    }
 
+    public String getSLDContent() {
+        NamedLayer namedLayer = new NamedLayer(namedLayerName.getText());
+        for (RulePane rulePane : rulePanes) {
+            namedLayer.addRule(rulePane.getRule(namedLayerName.getText()));
+        }
+
+        return namedLayer.toSLD();
+    }
+
+    public String getSLDLightContent() {
+        NamedLayer namedLayer = new NamedLayer(namedLayerName.getText());
+        for (RulePane rulePane : rulePanes) {
+            namedLayer.addRule(rulePane.getRule(namedLayerName.getText()));
+        }
+
+        return namedLayer.toSLDLight();
+    }
+
+    public String getNamedLayerName() {
+        return namedLayerName.getText();
     }
 }

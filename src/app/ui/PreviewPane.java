@@ -1,4 +1,4 @@
-package app.pane;
+package app.ui;
 
 import javafx.event.EventHandler;
 import javafx.scene.control.ScrollPane;
@@ -31,7 +31,7 @@ public class PreviewPane extends ScrollPane {
 
         sldLightPreviewText = new Text();
         sldLightPreviewText.setFont(new Font(12));
-//        sldLightPreviewText.setWrappingWidth(500);
+        sldLightPreviewText.setWrappingWidth(500);
         sldLightPreviewText.setText("The quick brown fox jumps over the lazy dog");
         sldLightPreviewText.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -51,7 +51,7 @@ public class PreviewPane extends ScrollPane {
 
         sldPreviewText = new Text();
         sldPreviewText.setFont(new Font(12));
-//        sldPreviewText.setWrappingWidth(500);
+        sldPreviewText.setWrappingWidth(500);
         sldPreviewText.setText("The quick brown fox jumps over the lazy dog");
         sldPreviewText.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override

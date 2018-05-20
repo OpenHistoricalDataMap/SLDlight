@@ -1,4 +1,4 @@
-package app.pane;
+package app.ui;
 
 public class NavigationPane {
 }

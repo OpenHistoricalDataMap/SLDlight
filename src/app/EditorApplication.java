@@ -1,6 +1,6 @@
 package app;
 
-import app.pane.ParentPane;
+import app.ui.ParentPane;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;

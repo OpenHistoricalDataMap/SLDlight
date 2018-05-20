@@ -12,7 +12,7 @@ import javafx.scene.layout.Region;
 
 public class DragResizer {
 
-    private static final int RESIZE_MARGIN = 10;
+    private static final int RESIZE_MARGIN = 3;
 
     private final Region region;
 
