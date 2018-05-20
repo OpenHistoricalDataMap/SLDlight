@@ -49,12 +49,16 @@ public class RulePane extends GridPane {
         for (Symbolizer symbolizer : rule.getSymbolizers()) {
             if (symbolizer instanceof PolygonSymbolizer) {
                 polygonPane = new PolygonPane((PolygonSymbolizer) symbolizer);
+                addPolygonPane(polygonPane);
             } else if (symbolizer instanceof PointSymbolizer) {
                 pointPane = new PointPane((PointSymbolizer) symbolizer);
+                addPointPane(pointPane);
             } else if (symbolizer instanceof LineSymbolizer) {
                 linePane = new LinePane((LineSymbolizer) symbolizer);
+                addLinePane(linePane);
             } else if (symbolizer instanceof TextSymbolizer) {
                 textPane = new TextPane((TextSymbolizer) symbolizer);
+                addTextPane(textPane);
             }
         }
     }
@@ -89,70 +93,22 @@ public class RulePane extends GridPane {
                 switch (type) {
                     case "Polygon":
                         if (polygonPane == null) {
-                            polygonPane = new PolygonPane();
-                            Button removePolygonPaneButton = new Button("Löschen");
-                            removePolygonPaneButton.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent event) {
-                                    getChildren().remove(polygonPane);
-                                    getChildren().remove(removePolygonPaneButton);
-                                    polygonPane = null;
-                                    rowIndex--;
-                                }
-                            });
-                            add(removePolygonPaneButton, 0, rowIndex);
-                            add(polygonPane, 1, rowIndex++, 8, 1);
+                            addPolygonPane(null);
                         }
                         break;
                     case "Linie":
                         if (linePane == null) {
-                            linePane = new LinePane();
-                            Button removeLinePaneButton = new Button("Löschen");
-                            removeLinePaneButton.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent event) {
-                                    getChildren().remove(linePane);
-                                    getChildren().remove(removeLinePaneButton);
-                                    linePane = null;
-                                    rowIndex--;
-                                }
-                            });
-                            add(removeLinePaneButton, 0, rowIndex);
-                            add(linePane, 1, rowIndex++, 8, 1);
+                            addLinePane(null);
                         }
                         break;
                     case "Punkt":
                         if (pointPane == null) {
-                            pointPane = new PointPane();
-                            Button removePointPaneButton = new Button("Löschen");
-                            removePointPaneButton.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent event) {
-                                    getChildren().remove(pointPane);
-                                    getChildren().remove(removePointPaneButton);
-                                    pointPane = null;
-                                    rowIndex--;
-                                }
-                            });
-                            add(removePointPaneButton, 0, rowIndex);
-                            add(pointPane, 1, rowIndex++, 8, 1);
+                            addPointPane(null);
                         }
                         break;
                     case "Text":
                         if (textPane == null) {
-                            textPane = new TextPane();
-                            Button removeTextPaneButton = new Button("Löschen");
-                            removeTextPaneButton.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent event) {
-                                    getChildren().remove(textPane);
-                                    getChildren().remove(removeTextPaneButton);
-                                    textPane = null;
-                                    rowIndex--;
-                                }
-                            });
-                            add(removeTextPaneButton, 0, rowIndex);
-                            add(textPane, 1, rowIndex++, 8, 1);
+                            addTextPane(null);
                         }
                         break;
                     default:
@@ -172,6 +128,92 @@ public class RulePane extends GridPane {
         add(addSymbolizerButton, 1, 1);
     }
 
+    private void addPolygonPane(PolygonPane pane) {
+        if (pane == null) {
+            polygonPane = new PolygonPane();
+        } else {
+            polygonPane = pane;
+        }
+        Button removePolygonPaneButton = new Button("Löschen");
+        removePolygonPaneButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                getChildren().remove(polygonPane);
+                getChildren().remove(removePolygonPaneButton);
+                polygonPane = null;
+                rowIndex--;
+            }
+        });
+        add(removePolygonPaneButton, 0, rowIndex);
+        add(polygonPane, 1, rowIndex++, 8, 1);
+
+    }
+
+    private void addPointPane(PointPane pane) {
+        if (pane == null) {
+            pointPane = new PointPane();
+        } else {
+            pointPane = pane;
+        }
+        pointPane = new PointPane();
+        Button removePointPaneButton = new Button("Löschen");
+        removePointPaneButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                getChildren().remove(pointPane);
+                getChildren().remove(removePointPaneButton);
+                pointPane = null;
+                rowIndex--;
+            }
+        });
+        add(removePointPaneButton, 0, rowIndex);
+        add(pointPane, 1, rowIndex++, 8, 1);
+
+    }
+
+    private void addLinePane(LinePane pane) {
+        if (pane == null) {
+            linePane = new LinePane();
+        } else {
+            linePane = pane;
+        }
+        linePane = new LinePane();
+        Button removeLinePaneButton = new Button("Löschen");
+        removeLinePaneButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                getChildren().remove(linePane);
+                getChildren().remove(removeLinePaneButton);
+                linePane = null;
+                rowIndex--;
+            }
+        });
+        add(removeLinePaneButton, 0, rowIndex);
+        add(linePane, 1, rowIndex++, 8, 1);
+
+    }
+
+    private void addTextPane(TextPane pane) {
+        if (pane == null) {
+            textPane = new TextPane();
+        } else {
+            textPane = pane;
+        }
+        textPane = new TextPane();
+        Button removeTextPaneButton = new Button("Löschen");
+        removeTextPaneButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                getChildren().remove(textPane);
+                getChildren().remove(removeTextPaneButton);
+                textPane = null;
+                rowIndex--;
+            }
+        });
+        add(removeTextPaneButton, 0, rowIndex);
+        add(textPane, 1, rowIndex++, 8, 1);
+
+    }
 
     public Rule getRule(String namedLayerName) {
         Rule rule = new Rule(namedLayerName + "_rule_" + nameIndex);
