@@ -6,8 +6,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class TextPane extends GridPane {
@@ -16,8 +18,9 @@ public class TextPane extends GridPane {
     static final ObservableList fontWeightList = FXCollections.observableArrayList(
             "Normal", "Bold");
 
-    private SmallTextField labelText, fontSizeText, fillText, anchorXText, anchorYText, displacementXText, displacementYText;
+    private SmallTextField labelText, fontSizeText, anchorXText, anchorYText, displacementXText, displacementYText;
     private ChoiceBox fontWeightBox;
+    private ColorPicker fillColorPicker;
 
     public TextPane() {
         setPadding(new Insets(20, 20, 20, 20));
@@ -38,7 +41,7 @@ public class TextPane extends GridPane {
         fontWeightBox.getSelectionModel().select(0);
 
         Label fillLabel = new Label("Farbe");
-        fillText = new SmallTextField("#000000");
+        fillColorPicker = new ColorPicker(Color.BLACK);
 
         Label anchorXLabel = new Label("Ankerpunkt X");
         anchorXText = new SmallTextField("0");
@@ -60,7 +63,7 @@ public class TextPane extends GridPane {
         add(fontWeightLabel, 1, 2);
         add(fontWeightBox, 2, 2);
         add(fillLabel, 3, 2);
-        add(fillText, 4, 2);
+        add(fillColorPicker, 4, 2);
         add(anchorXLabel, 1, 3);
         add(anchorXText, 2, 3);
         add(anchorYLabel, 3, 3);
@@ -75,8 +78,8 @@ public class TextPane extends GridPane {
         this();
         labelText.setText(symbolizer.getLabel());
         fontSizeText.setText(symbolizer.getFontSize());
-        fontWeightBox.getSelectionModel().select(1);
-        fillText.setText(symbolizer.getFill());
+        fontWeightBox.getSelectionModel().select(symbolizer.getFontWeight());
+        fillColorPicker.setValue(Color.web(symbolizer.getFill()));
         anchorXText.setText(symbolizer.getAnchorPointX());
         anchorYText.setText(symbolizer.getAnchorPointY());
         displacementXText.setText(symbolizer.getDisplacementX());
@@ -88,11 +91,15 @@ public class TextPane extends GridPane {
         textSymbolizer.setLabel(labelText.getText());
         textSymbolizer.setFontSize(fontSizeText.getText());
         textSymbolizer.setFontWeight((String) fontWeightBox.getSelectionModel().getSelectedItem());
-        textSymbolizer.setFill(fillText.getText());
+        textSymbolizer.setFill(getFormattedColorFromHexColor(fillColorPicker.getValue()));
         textSymbolizer.setAnchorPointX(anchorXText.getText());
         textSymbolizer.setAnchorPointY(anchorYText.getText());
         textSymbolizer.setDisplacementX(displacementXText.getText());
         textSymbolizer.setDisplacementY(displacementYText.getText());
         return textSymbolizer;
+    }
+
+    private String getFormattedColorFromHexColor(Color color) {
+        return "#" + color.toString().substring(2, color.toString().length() - 2);
     }
 }

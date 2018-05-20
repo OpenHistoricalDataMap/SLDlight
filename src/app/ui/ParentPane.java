@@ -13,6 +13,9 @@ import java.io.File;
 
 public class ParentPane extends BorderPane {
 
+    private static FileChooser.ExtensionFilter sldlFilter = new FileChooser.ExtensionFilter("SLDlight (*.sldl)", "*.sldl");
+    private static FileChooser.ExtensionFilter sldFilter = new FileChooser.ExtensionFilter("SLD (*.sld)", "*.sld");
+
     public ParentPane() {
         super();
 
@@ -26,7 +29,6 @@ public class ParentPane extends BorderPane {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
 
-
         MenuBar menuBar = new MenuBar();
 
         // --- Menu File
@@ -39,6 +41,9 @@ public class ParentPane extends BorderPane {
         MenuItem open = new MenuItem("Datei öffnen");
         open.setOnAction(t -> {
             fileChooser.setTitle("Datei öffnen");
+            fileChooser.getExtensionFilters().clear();
+            fileChooser.getExtensionFilters().add(sldlFilter);
+
             File file = fileChooser.showOpenDialog(getScene().getWindow());
             if (file != null) {
                 NamedLayer layer = MyFileReader.parseNamedLayerFromSLDLight(file.getAbsolutePath());
@@ -47,24 +52,13 @@ public class ParentPane extends BorderPane {
             }
 
         });
-        MenuItem saveAsSLD = new MenuItem("SLD speichern");
-        saveAsSLD.setOnAction(t -> {
-            fileChooser.setTitle("SLD speichern");
-            if (editorPane.getNamedLayerName() != null) {
-                fileChooser.setInitialFileName(editorPane.getNamedLayerName() + ".sld");
-            } else {
-                fileChooser.setInitialFileName(".sld");
-            }
 
-            File file = fileChooser.showSaveDialog(getScene().getWindow());
-            if (file != null) {
-                MyFileWriter.writeFile(file.getAbsolutePath(), editorPane.getSLDContent());
-            }
-
-        });
         MenuItem saveAsSLDLight = new MenuItem("SLDLight speichern");
         saveAsSLDLight.setOnAction(t -> {
             fileChooser.setTitle("SLDLight speichern");
+            fileChooser.getExtensionFilters().clear();
+            fileChooser.getExtensionFilters().add(sldlFilter);
+
             if (editorPane.getNamedLayerName() != null) {
                 fileChooser.setInitialFileName(editorPane.getNamedLayerName() + ".sldl");
             } else {
@@ -77,7 +71,26 @@ public class ParentPane extends BorderPane {
             }
 
         });
-        menuFile.getItems().addAll(newFile, open, saveAsSLD, saveAsSLDLight);
+
+        MenuItem saveAsSLD = new MenuItem("SLD speichern");
+        saveAsSLD.setOnAction(t -> {
+            fileChooser.setTitle("SLD speichern");
+            fileChooser.getExtensionFilters().clear();
+            fileChooser.getExtensionFilters().add(sldFilter);
+
+            if (editorPane.getNamedLayerName() != null) {
+                fileChooser.setInitialFileName(editorPane.getNamedLayerName() + ".sld");
+            } else {
+                fileChooser.setInitialFileName(".sld");
+            }
+
+            File file = fileChooser.showSaveDialog(getScene().getWindow());
+            if (file != null) {
+                MyFileWriter.writeFile(file.getAbsolutePath(), editorPane.getSLDContent());
+            }
+
+        });
+        menuFile.getItems().addAll(newFile, open, saveAsSLDLight, saveAsSLD);
 
 
         menuBar.getMenus().addAll(menuFile);

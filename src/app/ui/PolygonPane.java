@@ -3,13 +3,17 @@ package app.ui;
 import app.model.symbolizer.PolygonSymbolizer;
 import app.model.symbolizer.Symbolizer;
 import javafx.geometry.Insets;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class PolygonPane extends GridPane {
 
-    private SmallTextField fillText, fillOpacityText, strokeText, strokeWidthText, strokeDashText;
+    private SmallTextField fillOpacityText, strokeWidthText, strokeDashText;
+
+    private ColorPicker fillColorPicker, strokeColorPicker;
 
     public PolygonPane() {
         setPadding(new Insets(20, 20, 20, 20));
@@ -20,13 +24,13 @@ public class PolygonPane extends GridPane {
         titleLabel.setFont(new Font(15));
 
         Label fillLabel = new Label("Füllfarbe");
-        fillText = new SmallTextField("#000000");
+        fillColorPicker = new ColorPicker(Color.BLACK);
 
         Label fillOpacityLabel = new Label("Deckkraft der Farbe");
         fillOpacityText = new SmallTextField("1.0");
 
         Label strokeLabel = new Label("Strichfarbe");
-        strokeText = new SmallTextField("#000000");
+        strokeColorPicker = new ColorPicker(Color.BLACK);
 
         Label strokeWidthLabel = new Label("Dicke des Striches");
         strokeWidthText = new SmallTextField("1.0");
@@ -36,11 +40,11 @@ public class PolygonPane extends GridPane {
 
         add(titleLabel, 0, 0);
         add(fillLabel, 1, 1);
-        add(fillText, 2, 1);
+        add(fillColorPicker, 2, 1);
         add(fillOpacityLabel, 3, 1);
         add(fillOpacityText, 4, 1);
         add(strokeLabel, 1, 2);
-        add(strokeText, 2, 2);
+        add(strokeColorPicker, 2, 2);
         add(strokeWidthLabel, 3, 2);
         add(strokeWidthText, 4, 2);
         add(strokeDashLabel, 5, 2);
@@ -49,9 +53,9 @@ public class PolygonPane extends GridPane {
 
     public PolygonPane(PolygonSymbolizer symbolizer) {
         this();
-        fillText.setText(symbolizer.getFill());
+        fillColorPicker.setValue(Color.web(symbolizer.getFill()));
         fillOpacityText.setText(symbolizer.getFillOpacity());
-        strokeText.setText(symbolizer.getStroke());
+        strokeColorPicker.setValue(Color.web(symbolizer.getStroke()));
         strokeWidthText.setText(symbolizer.getStrokeWidth());
         strokeDashText.setText(symbolizer.getStrokeDashArray());
 
@@ -59,11 +63,15 @@ public class PolygonPane extends GridPane {
 
     public Symbolizer toSymbolizer() {
         PolygonSymbolizer polygonSymbolizer = new PolygonSymbolizer();
-        polygonSymbolizer.setFill(fillText.getText());
+        polygonSymbolizer.setFill(getFormattedColorFromHexColor(fillColorPicker.getValue()));
         polygonSymbolizer.setFillOpacity(fillOpacityText.getText());
-        polygonSymbolizer.setStroke(strokeText.getText());
+        polygonSymbolizer.setStroke(getFormattedColorFromHexColor(strokeColorPicker.getValue()));
         polygonSymbolizer.setStrokeWidth(strokeWidthText.getText());
         polygonSymbolizer.setStrokeDashArray(strokeDashText.getText());
         return polygonSymbolizer;
+    }
+
+    private String getFormattedColorFromHexColor(Color color) {
+        return "#" + color.toString().substring(2, color.toString().length() - 2);
     }
 }

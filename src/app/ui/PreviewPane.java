@@ -27,12 +27,12 @@ public class PreviewPane extends ScrollPane {
         GridPane sldLightGrid = new GridPane();
         Text headline = new Text();
         headline.setFont(new Font(20));
-        headline.setText("SLD Light Preview (Copy to clipboard by clicking on text)");
+        headline.setText("SLD Light Preview");
 
         sldLightPreviewText = new Text();
         sldLightPreviewText.setFont(new Font(12));
         sldLightPreviewText.setWrappingWidth(500);
-        sldLightPreviewText.setText("The quick brown fox jumps over the lazy dog");
+        sldLightPreviewText.setText("");
         sldLightPreviewText.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -47,12 +47,12 @@ public class PreviewPane extends ScrollPane {
         GridPane sldGrid = new GridPane();
         headline = new Text();
         headline.setFont(new Font(20));
-        headline.setText("SLD Preview (Copy to clipboard by clicking on text)");
+        headline.setText("SLD Preview");
 
         sldPreviewText = new Text();
         sldPreviewText.setFont(new Font(12));
         sldPreviewText.setWrappingWidth(500);
-        sldPreviewText.setText("The quick brown fox jumps over the lazy dog");
+        sldPreviewText.setText("");
         sldPreviewText.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
