@@ -31,6 +31,11 @@ public class ParentPane extends BorderPane {
 
         // --- Menu File
         Menu menuFile = new Menu("Datei");
+        MenuItem newFile = new MenuItem("Neu");
+        newFile.setOnAction(t -> {
+            editorPane.init();
+
+        });
         MenuItem open = new MenuItem("Datei öffnen");
         open.setOnAction(t -> {
             fileChooser.setTitle("Datei öffnen");
@@ -72,7 +77,7 @@ public class ParentPane extends BorderPane {
             }
 
         });
-        menuFile.getItems().addAll(open, saveAsSLD, saveAsSLDLight);
+        menuFile.getItems().addAll(newFile, open, saveAsSLD, saveAsSLDLight);
 
 
         menuBar.getMenus().addAll(menuFile);

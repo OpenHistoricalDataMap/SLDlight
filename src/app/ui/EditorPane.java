@@ -18,7 +18,7 @@ import java.util.List;
 
 public class EditorPane extends ScrollPane {
 
-    private List<RulePane> rulePanes = new ArrayList<>();
+    private List<RulePane> rulePanes;
 
     private PreviewPane previewPane;
     private GridPane contentPane;
@@ -29,9 +29,15 @@ public class EditorPane extends ScrollPane {
         super();
         this.previewPane = previewPane;
 
+        init();
+    }
+
+    public void init() {
         contentPane = new GridPane();
 
         contentPane.add(createGlobalControls(), 0, 0);
+
+        rulePanes = new ArrayList<>();
 
         // Set content for ScrollPane
         setContent(contentPane);
@@ -40,6 +46,8 @@ public class EditorPane extends ScrollPane {
         // Horizontal scroll bar is only displayed when needed
         setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
         setPadding(new Insets(10, 10, 10, 10));
+
+        showPreview();
     }
 
 
@@ -78,6 +86,7 @@ public class EditorPane extends ScrollPane {
 
 
     public void generateControlsFromNamedLayer(NamedLayer layer) {
+        rulePanes.clear();
         namedLayerName.setText(layer.getName());
         for (Rule rule : layer.getRules()) {
             addRulePane(new RulePane(rule));

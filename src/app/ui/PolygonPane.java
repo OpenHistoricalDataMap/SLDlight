@@ -49,6 +49,12 @@ public class PolygonPane extends GridPane {
 
     public PolygonPane(PolygonSymbolizer symbolizer) {
         this();
+        fillText.setText(symbolizer.getFill());
+        fillOpacityText.setText(symbolizer.getFillOpacity());
+        strokeText.setText(symbolizer.getStroke());
+        strokeWidthText.setText(symbolizer.getStrokeWidth());
+        strokeDashText.setText(symbolizer.getStrokeDashArray());
+
     }
 
     public Symbolizer toSymbolizer() {

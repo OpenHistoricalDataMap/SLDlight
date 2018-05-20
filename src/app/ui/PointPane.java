@@ -48,7 +48,9 @@ public class PointPane extends GridPane {
 
     public PointPane(PointSymbolizer symbolizer) {
         this();
-
+        fillText.setText(symbolizer.getFill());
+        sizeText.setText(symbolizer.getSize());
+        graphicNameBox.getSelectionModel().select(symbolizer.getWellKnownName());
     }
 
     public Symbolizer toSymbolizer() {

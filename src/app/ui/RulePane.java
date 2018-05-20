@@ -44,7 +44,8 @@ public class RulePane extends GridPane {
         minZoomBox.getSelectionModel().select(Integer.parseInt(rule.getZoom().getMinScaleNumber()));
         maxZoomBox.getSelectionModel().select(Integer.parseInt(rule.getZoom().getMaxScaleNumber()));
 
-        filterText.setText(rule.getFilter().getPropertyEqualTo());
+        if (rule.getFilter() != null)
+            filterText.setText(rule.getFilter().getPropertyEqualTo());
 
         for (Symbolizer symbolizer : rule.getSymbolizers()) {
             if (symbolizer instanceof PolygonSymbolizer) {
@@ -155,7 +156,6 @@ public class RulePane extends GridPane {
         } else {
             pointPane = pane;
         }
-        pointPane = new PointPane();
         Button removePointPaneButton = new Button("Löschen");
         removePointPaneButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -177,7 +177,6 @@ public class RulePane extends GridPane {
         } else {
             linePane = pane;
         }
-        linePane = new LinePane();
         Button removeLinePaneButton = new Button("Löschen");
         removeLinePaneButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -199,7 +198,6 @@ public class RulePane extends GridPane {
         } else {
             textPane = pane;
         }
-        textPane = new TextPane();
         Button removeTextPaneButton = new Button("Löschen");
         removeTextPaneButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override

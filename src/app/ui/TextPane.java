@@ -73,6 +73,14 @@ public class TextPane extends GridPane {
 
     public TextPane(TextSymbolizer symbolizer) {
         this();
+        labelText.setText(symbolizer.getLabel());
+        fontSizeText.setText(symbolizer.getFontSize());
+        fontWeightBox.getSelectionModel().select(1);
+        fillText.setText(symbolizer.getFill());
+        anchorXText.setText(symbolizer.getAnchorPointX());
+        anchorYText.setText(symbolizer.getAnchorPointY());
+        displacementXText.setText(symbolizer.getDisplacementX());
+        displacementYText.setText(symbolizer.getDisplacementY());
     }
 
     public Symbolizer toSymbolizer() {
