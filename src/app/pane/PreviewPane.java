@@ -23,6 +23,7 @@ public class PreviewPane extends ScrollPane {
         VBox vBox = new VBox();
         setContent(vBox);
 
+
         GridPane sldLightGrid = new GridPane();
         Text headline = new Text();
         headline.setFont(new Font(20));
@@ -30,7 +31,7 @@ public class PreviewPane extends ScrollPane {
 
         sldLightPreviewText = new Text();
         sldLightPreviewText.setFont(new Font(12));
-        sldLightPreviewText.setWrappingWidth(500);
+//        sldLightPreviewText.setWrappingWidth(500);
         sldLightPreviewText.setText("The quick brown fox jumps over the lazy dog");
         sldLightPreviewText.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -50,7 +51,7 @@ public class PreviewPane extends ScrollPane {
 
         sldPreviewText = new Text();
         sldPreviewText.setFont(new Font(12));
-        sldPreviewText.setWrappingWidth(500);
+//        sldPreviewText.setWrappingWidth(500);
         sldPreviewText.setText("The quick brown fox jumps over the lazy dog");
         sldPreviewText.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -66,6 +67,7 @@ public class PreviewPane extends ScrollPane {
 
         vBox.getChildren().add(sldLightGrid);
         vBox.getChildren().add(sldGrid);
+
     }
 
     public void showSLDLightPreviewText(String text) {

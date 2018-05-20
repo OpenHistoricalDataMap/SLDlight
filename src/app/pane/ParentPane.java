@@ -1,5 +1,6 @@
 package app.pane;
 
+import app.ui.DragResizer;
 import javafx.scene.layout.BorderPane;
 
 public class ParentPane extends BorderPane {
@@ -9,9 +10,11 @@ public class ParentPane extends BorderPane {
 
         PreviewPane previewPane = new PreviewPane();
         EditorPane editorPane = new EditorPane(previewPane);
+        DragResizer.makeResizable(previewPane);
 
         setCenter(editorPane);
         setRight(previewPane);
+
 
     }
 }

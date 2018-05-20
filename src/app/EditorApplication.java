@@ -15,6 +15,7 @@ public class EditorApplication extends Application {
         Scene scene = new Scene(pane, 1200, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
+
     }
 
 
