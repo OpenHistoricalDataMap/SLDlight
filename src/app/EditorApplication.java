@@ -12,7 +12,7 @@ public class EditorApplication extends Application {
         ParentPane pane = new ParentPane();
 
         primaryStage.setTitle("SLDLight Editor");
-        Scene scene = new Scene(pane, 1600, 600);
+        Scene scene = new Scene(pane, 1000, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
 
