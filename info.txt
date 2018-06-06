@@ -1,0 +1,14 @@
+sftp://ohm.f4.htw-berlin.de
+s0558606
+pwd
+Port: 22
+
+Path to test styles
+
+/var/lib/tomcat7/webapps/geoserver/data/workspaces/ohdm_t/styles
+
+Editor muss Auswahlmöglichkeit geben um zwischen
+Integration
+Test
+Produktion
+-Umgebungen zu unterscheiden
