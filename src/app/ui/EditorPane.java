@@ -39,11 +39,8 @@ public class EditorPane extends ScrollPane {
 
         rulePanes = new ArrayList<>();
 
-        // Set content for ScrollPane
         setContent(contentPane);
-        // Always show vertical scroll bar
         setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
-        // Horizontal scroll bar is only displayed when needed
         setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
         setPadding(new Insets(10, 10, 10, 10));
 
@@ -55,7 +52,6 @@ public class EditorPane extends ScrollPane {
         GridPane pane = new GridPane();
         pane.setVgap(10);
         pane.setHgap(10);
-        // create name ui
         Label nameLabel = new Label("Name");
         namedLayerName = new TextField();
 

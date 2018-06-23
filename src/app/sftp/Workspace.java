@@ -1,7 +1,10 @@
 package app.sftp;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public enum Workspace {
-    DEFAULT("ohdm"), TEST("ohdm_t"), PRODUCTION("ohdm_p"), INTEGRATION("ohdm_i");
+    DEFAULT("ohdm"), TEST("ohdm_t"), PRODUCTION("ohdm_p");
 
     private static final String PATH_TO_WORKSPACES = "/var/lib/tomcat7/webapps/geoserver/data/workspaces/";
     private String path;
@@ -12,5 +15,13 @@ public enum Workspace {
 
     public String getPath() {
         return path;
+    }
+
+    public static Set<Workspace> getWorkspaces() {
+        Set<Workspace> set = new HashSet<>();
+        set.add(Workspace.DEFAULT);
+        set.add(Workspace.TEST);
+        set.add(Workspace.PRODUCTION);
+        return set;
     }
 }
