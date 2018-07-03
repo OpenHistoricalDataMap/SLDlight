@@ -58,6 +58,7 @@ public class SFTPHelper {
     private static void tryUploadFileWithSFTPClient(SFTPClient sftpClient, String localPath, String destinationPath) {
         try {
             sftpClient.put(new FileSystemFile(localPath), destinationPath);
+            System.out.println("Upload successful!");
         } catch (IOException e) {
             e.printStackTrace();
         }
