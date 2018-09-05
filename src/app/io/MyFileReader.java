@@ -25,18 +25,14 @@ public class MyFileReader {
 
     private static List<String> readFileToList(String fileName) throws Exception {
         String line = null;
-        List<String> records = new ArrayList<String>();
+        List<String> records = new ArrayList<>();
 
-        // wrap a BufferedReader around FileReader
         BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
 
-        // use the readLine method of the BufferedReader to read one line at a time.
-        // the readLine method returns null when there is nothing else to read.
         while ((line = bufferedReader.readLine()) != null) {
             records.add(line);
         }
 
-        // close the BufferedReader when we're done
         bufferedReader.close();
         return records;
     }

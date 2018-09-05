@@ -92,9 +92,18 @@ public class ParentPane extends BorderPane {
         });
         menuFile.getItems().addAll(newFile, open, saveAsSLDLight, saveAsSLD);
 
+        // --- Menu Server
+        Menu menuServer = new Menu("Server");
 
-        menuBar.getMenus().addAll(menuFile);
+        MenuItem menuUpload = new MenuItem("Datei auf Geoserver hochladen");
+        menuUpload.setOnAction(t -> {
+            new UploadDialog().show();
+        });
 
+        menuServer.getItems().add(menuUpload);
+
+
+        menuBar.getMenus().addAll(menuFile, menuServer);
 
         setTop(menuBar);
     }
