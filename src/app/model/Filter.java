@@ -1,6 +1,6 @@
 package app.model;
 
-public class Filter {
+public class Filter implements SLDObject {
 
     private String propertyEqualTo;
 
