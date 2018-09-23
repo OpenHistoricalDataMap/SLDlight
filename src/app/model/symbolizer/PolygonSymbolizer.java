@@ -27,11 +27,11 @@ public class PolygonSymbolizer implements Symbolizer {
         stringBuilder.append("          <sld:CssParameter name=\"fill\">" + getFill() + "</sld:CssParameter>\n");
         stringBuilder.append("          <sld:CssParameter name=\"fill-opacity\">" + getFillOpacity() + "</sld:CssParameter>\n");
         stringBuilder.append("         </sld:Fill>\n");
-        stringBuilder.append("         <sld:stroke>\n");
+        stringBuilder.append("         <sld:Stroke>\n");
         stringBuilder.append("          <sld:CssParameter name=\"stroke\">" + getStroke() + "</sld:CssParameter>\n");
         stringBuilder.append("          <sld:CssParameter name=\"stroke-width\">" + getStrokeWidth() + "</sld:CssParameter>\n");
         stringBuilder.append("          <sld:CssParameter name=\"stroke-dasharray\">" + getStrokeDashArray() + "</sld:CssParameter>\n");
-        stringBuilder.append("         </sld:stroke>\n");
+        stringBuilder.append("         </sld:Stroke>\n");
         stringBuilder.append("        </sld:PolygonSymbolizer>\n");
 
         return stringBuilder.toString();
