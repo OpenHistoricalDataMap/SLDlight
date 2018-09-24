@@ -3,6 +3,7 @@ package app.sftp;
 import net.schmizz.sshj.SSHClient;
 import net.schmizz.sshj.sftp.SFTPClient;
 import net.schmizz.sshj.transport.TransportException;
+import net.schmizz.sshj.transport.verification.PromiscuousVerifier;
 import net.schmizz.sshj.userauth.UserAuthException;
 import net.schmizz.sshj.xfer.FileSystemFile;
 
@@ -43,7 +44,7 @@ public class SFTPHelper {
         final SSHClient ssh = new SSHClient();
         if (tryConnectToServer(ssh)) {
             if (tryAuthentication(ssh)) {
-                final SFTPClient sftp = tryGetSFTPClient(ssh);
+                SFTPClient sftp = tryGetSFTPClient(ssh);
 
                 if (sftp != null) {
                     tryUploadFileWithSFTPClient(sftp, localFile.getAbsolutePath(), workspace.getPath() + localFile.getName());
@@ -66,10 +67,11 @@ public class SFTPHelper {
 
     private static boolean tryConnectToServer(SSHClient ssh) {
         try {
-            ssh.loadKnownHosts();
+            ssh.addHostKeyVerifier(new PromiscuousVerifier());
             ssh.connect("ohm.f4.htw-berlin.de");
             return true;
         } catch (IOException e) {
+            e.printStackTrace();
             System.out.println("Can not connect to server!");
             return false;
         }
