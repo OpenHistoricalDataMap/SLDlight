@@ -2,6 +2,7 @@ package app.ui;
 
 import app.sftp.SFTPHelper;
 import app.sftp.Workspace;
+import app.sftp.XMLForSLDCreator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -59,8 +60,12 @@ public class UploadDialog extends Stage {
     private void handleUploadButtonClick() {
         if (selectedFile != null) {
             SFTPHelper.uploadFileToOHMServer(workspaceChoiceBox.getValue(), selectedFile);
+
+            File xmlFile = XMLForSLDCreator.getXmlForSLDFile(selectedFile, workspaceChoiceBox.getValue());
+            SFTPHelper.uploadFileToOHMServer(workspaceChoiceBox.getValue(), xmlFile);
         }
     }
+
 
     private void setupWorkspaceChoiceBox() {
         Label label = new Label("Workspace");

@@ -1,6 +1,4 @@
 sftp://ohm.f4.htw-berlin.de
-s0558606
-pwd
 Port: 22
 
 Path to test styles

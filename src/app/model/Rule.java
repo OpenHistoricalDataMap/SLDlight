@@ -5,7 +5,7 @@ import app.model.symbolizer.Symbolizer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Rule {
+public class Rule implements SLDObject {
 
     private List<Symbolizer> symbolizers = new ArrayList<>();
     private String name;

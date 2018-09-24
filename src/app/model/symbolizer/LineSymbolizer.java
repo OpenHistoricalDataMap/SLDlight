@@ -26,7 +26,7 @@ public class LineSymbolizer implements Symbolizer {
         stringBuilder.append("           <sld:CssParameter name=\"stroke\">" + getStroke() + "</sld:CssParameter>\n");
         stringBuilder.append("           <sld:CssParameter name=\"stroke-width\">" + getStrokeWidth() + "</sld:CssParameter>\n");
         stringBuilder.append("           <sld:CssParameter name=\"stroke-dasharray\">" + getStrokeDashArray() + "</sld:CssParameter>\n");
-        stringBuilder.append("          </sld:stroke>\n");
+        stringBuilder.append("          </sld:Stroke>\n");
         stringBuilder.append("          <sld:PerpendicularOffset>" + getPerpendicularOffset() + "</sld:PerpendicularOffset>\n");
         stringBuilder.append("         </sld:LineSymbolizer>\n");
 

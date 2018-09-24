@@ -13,15 +13,15 @@ public enum Workspace {
         path = PATH_TO_WORKSPACES + pathEnding + "/styles/";
     }
 
-    public String getPath() {
-        return path;
-    }
-
     public static Set<Workspace> getWorkspaces() {
         Set<Workspace> set = new HashSet<>();
         set.add(Workspace.DEFAULT);
         set.add(Workspace.TEST);
         set.add(Workspace.PRODUCTION);
         return set;
+    }
+
+    public String getPath() {
+        return path;
     }
 }

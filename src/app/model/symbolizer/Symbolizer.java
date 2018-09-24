@@ -1,8 +1,6 @@
 package app.model.symbolizer;
 
-public interface Symbolizer {
+import app.model.SLDObject;
 
-    String toSLD();
-
-    String toSLDLight();
+public interface Symbolizer extends SLDObject {
 }

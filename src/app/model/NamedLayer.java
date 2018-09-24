@@ -3,7 +3,7 @@ package app.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NamedLayer {
+public class NamedLayer implements SLDObject {
 
     private String name;
 

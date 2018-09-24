@@ -1,6 +1,6 @@
 package app.model;
 
-public class Zoom {
+public class Zoom implements SLDObject {
 
     private String minScaleNumber, maxScaleNumber;
     private String minScaleDenominator, maxScaleDenominator;
