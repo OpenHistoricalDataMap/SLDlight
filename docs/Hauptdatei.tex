@@ -1,0 +1,233 @@
+% allgem. Dokumentenformat
+\documentclass[a4paper,12pt,headsepline]{scrartcl}
+\input{latex_einstellungen/variablen}
+
+% weitere Pakete
+% Grafiken aus PNG Dateien einbinden
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+
+% Kommandos für mehr Bilder auf einer Seite
+\renewcommand{\topfraction}{.85}
+\renewcommand{\bottomfraction}{.7}
+\renewcommand{\textfraction}{.15}
+\renewcommand{\floatpagefraction}{.66}
+\renewcommand{\dbltopfraction}{.66}
+\renewcommand{\dblfloatpagefraction}{.66}
+\setcounter{topnumber}{9}
+\setcounter{bottomnumber}{9}
+\setcounter{totalnumber}{20}
+\setcounter{dbltopnumber}{9}
+
+% Deutsche Sonderzeichen benutzen 
+%\usepackage{ngerman}
+\usepackage[autostyle=true,german=quotes]{csquotes}
+
+% deutsche Silbentrennung
+\usepackage[ngerman]{babel}
+
+% Eurozeichen einbinden
+\usepackage[right]{eurosym}
+
+% Umlaute unter UTF8 nutzen
+\usepackage[utf8]{inputenc}
+
+% Zeichenencoding
+\usepackage[T1]{fontenc}
+
+\usepackage{lmodern}
+\usepackage{fix-cm}
+
+% floatende Bilder ermöglichen
+%\usepackage{floatflt}
+
+% mehrseitige Tabellen ermöglichen
+\usepackage{longtable}
+
+% Unterstützung für Schriftarten
+%\newcommand{\changefont}[3]{ 
+%\fontfamily{#1} \fontseries{#2} \fontshape{#3} \selectfont}
+
+% Paket für Seitenrandabständex und Einstellung für Seitenränder
+\usepackage{geometry}
+\geometry{left=3.5cm, right=2cm, top=2.5cm, bottom=2cm}
+
+% Paket für Boxen im Text
+\usepackage{fancybox}
+
+% bricht lange URLs "schoen" um
+\usepackage[hyphens,obeyspaces,spaces]{url}
+
+% Paket für Textfarben
+\usepackage{color}
+
+% Mathematische Symbole importieren
+\usepackage{amssymb}
+
+% auf jeder Seite eine Überschrift (alt, zentriert)
+%\pagestyle{headings}
+
+% erzeugt Inhaltsverzeichnis mit Querverweisen zu den Kapiteln (PDF Version)
+\usepackage[hidelinks,bookmarksnumbered,pdftitle={\titleDocument},hyperfootnotes=false]{hyperref} 
+%\hypersetup{colorlinks, citecolor=red, linkcolor=blue, urlcolor=black}
+%\hypersetup{colorlinks, citecolor=black, linkcolor= black, urlcolor=black}
+
+% neue Kopfzeilen mit fancypaket
+\usepackage{fancyhdr} %Paket laden
+\pagestyle{fancy} %eigener Seitenstil
+\fancyhf{} %alle Kopf- und Fußzeilenfelder bereinigen
+\fancyhead[L]{\nouppercase{\leftmark}} %Kopfzeile links
+\fancyhead[C]{} %zentrierte Kopfzeile
+\fancyhead[R]{\thepage} %Kopfzeile rechts
+\renewcommand{\headrulewidth}{0.4pt} %obere Trennlinie
+%\fancyfoot[C]{\thepage} %Seitennummer
+%\renewcommand{\footrulewidth}{0.4pt} %untere Trennlinie
+
+% für Tabellen
+\usepackage{array}
+
+% Runde Klammern für Zitate
+%\usepackage[numbers,round]{natbib}
+
+% Festlegung Art der Zitierung - Havardmethode: Abkuerzung Autor + Jahr
+\bibliographystyle{alphadin}
+
+% Schaltet den zusätzlichen Zwischenraum ab, den LaTeX normalerweise nach einem Satzzeichen einfügt.
+\frenchspacing
+
+% Paket für Zeilenabstand
+\usepackage{setspace}
+
+% für Bildbezeichner
+\usepackage{capt-of}
+
+% für Stichwortverzeichnis
+\usepackage{makeidx}
+
+% für Listings
+\usepackage{listings}
+\lstset{numbers=left, numberstyle=\tiny, numbersep=5pt, keywordstyle=\color{black}\bfseries, stringstyle=\ttfamily,showstringspaces=false,basicstyle=\footnotesize,captionpos=b}
+\lstset{language=java}
+
+% Indexerstellung
+\makeindex
+
+% Abkürzungsverzeichnis
+\usepackage[german]{nomencl}
+\let\abbrev\nomenclature
+
+% --- Abkürzungsverzeichnis: ----------------------------
+% START % Näheres siehe http://my.opera.com/timomeinen/blog/show.dml/68644
+\usepackage{nomencl}
+% Befehl umbenennen in abk
+\let\abk\nomenclature
+% Deutsche Überschrift
+\renewcommand{\nomname}{Abkürzungsverzeichnis}
+% Punkte zw. Abkürzung und Erklärung
+\setlength{\nomlabelwidth}{.20\hsize}
+\renewcommand{\nomlabel}[1]{#1 \dotfill}
+% Zeilenabstände verkleinern
+\setlength{\nomitemsep}{-\parsep}
+\makenomenclature
+%--------------------------------------------------------
+
+% Disable single lines at the start of a paragraph (Schusterjungen)
+\clubpenalty = 10000
+% Disable single lines at the end of a paragraph (Hurenkinder)
+\widowpenalty = 10000
+\displaywidowpenalty = 10000
+
+\begin{document}
+% hier werden die Trennvorschläge inkludiert
+\input{latex_einstellungen/trennung}
+
+% Titelseite %
+\include{latex_einstellungen/deckblatt}
+
+% einfacher Zeilenabstand
+\singlespacing
+
+% Inhaltsverzeichnis anzeigen
+\newpage
+\tableofcontents
+
+% das Abbildungsverzeichnis
+\addcontentsline{toc}{section}{Abbildungsverzeichnis}
+\listoffigures
+
+% das Tabellenverzeichnis
+\addcontentsline{toc}{section}{Tabellenverzeichnis}
+% \fancyhead[L]{Abbildungsverzeichnis / Abkürzungsverzeichnis} %Kopfzeile links
+\listoftables
+
+% das Listingverzeichnis
+\addcontentsline{toc}{section}{Listingverzeichnis}
+\fancyhead[L]{Abbildungs- / Tabellen- / Listingverzeichnis} %Kopfzeile links
+\renewcommand{\lstlistlistingname}{Listingverzeichnis}
+\lstlistoflistings
+%%%%
+
+% das Abkürzungsverzeichnis
+\newpage
+\addcontentsline{toc}{section}{Abkürzungsverzeichnis}
+% das Abkürzungsverzeichnis entgültige Ausgeben
+\fancyhead[L]{Abkürzungsverzeichnis} %Kopfzeile links
+\input{latex_einstellungen/nomenclature}
+\printnomenclature
+
+% Definiert Stegbreite bei zweispaltigem Layout
+\setlength{\columnsep}{25pt}
+
+%%%%%%% EINLEITUNG %%%%%%%%%%%%
+%\twocolumn
+\newpage
+\fancyhead[L]{\nouppercase{\leftmark}} %Kopfzeile links
+
+% 1,5 facher Zeilenabstand
+\onehalfspacing
+
+% einzelne Kapitel
+\input{1_einleitung}
+
+\input{2_architektur}
+
+\input{3_nutzung}
+
+\input{4_qualitaet}
+
+\input{5_ausblick}
+
+
+\onecolumn
+% einfacher Zeilenabstand
+\singlespacing
+% Literaturliste soll im Inhaltsverzeichnis auftauchen
+\newpage
+\addcontentsline{toc}{section}{Literaturverzeichnis}
+% Literaturverzeichnis anzeigen
+\renewcommand\refname{Literaturverzeichnis}
+\bibliography{Hauptdatei}
+\nocite{*}
+
+%% Index soll Stichwortverzeichnis heissen
+ \newpage
+% % Stichwortverzeichnis soll im Inhaltsverzeichnis auftauchen
+% \addcontentsline{toc}{section}{Stichwortverzeichnis}
+% \renewcommand{\indexname}{Stichwortverzeichnis}
+% % Stichwortverzeichnis endgueltig anzeigen
+% \printindex
+
+\onehalfspacing
+% evtl. Anhang
+\newpage
+\addcontentsline{toc}{section}{Anhang}
+\fancyhead[L]{Anhang} %Kopfzeile links
+\input{anhang/anhang}
+
+% leere Abschlussseite
+\newpage
+\thispagestyle{empty} % erzeugt Seite ohne Kopf- / Fusszeile
+\section*{ }
+
+\end{document}

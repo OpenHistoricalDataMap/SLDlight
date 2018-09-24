@@ -1,0 +1,17 @@
+\section{Nutzung}\label{Nutzung}
+\subsection{Code}
+Der Code des Projektes wird auf \url{https://github.com/OpenHistoricalDataMap/SLDlight} zur Verfügung gestellt.
+Als Programmiersprache wird Java verwendet und zur Erstellung der grafischen Oberfläche wird JavaFX genutzt.
+
+Wo findet man den Code. Struktur des Codes. (In Prototyphase ausfüllen,
+kann dort sehr kurz sein. Ab Alpha-Phase konkret beschreiben.)
+
+\subsection{Deployment / Runtime}\label{Deployment}
+Um das Programm aus dem Code zu erzeugen, muss der Projektordner in einer Java-Entwicklungsumgebung geöffnet und die \enquote{sshj}-Bibliothek zum Projekt hinzugefügt werden. Dazu können entweder die Dateien im \enquote{lib}-Ordner als Bibliotheken zum Projekt hinzugefügt oder über Maven eingebunden werden\footnote{Hilfe bei Verwendung von Intellij IDEA als IDE siehe \url{https://www.jetbrains.com/help/idea/library.html}}. Da JavaFX verwendet wird, muss darauf geachtet werden, dass die Java-Installation auf dem PC auch JavaFX enthält, da es sonst zu Fehlern kommen kann.
+
+Des Weiteren muss eine Klasse mit dem Dateinamen \enquote{SSHConstants.java} im \enquote{app.sftp}-Package erstellt werden. In dieser Klasse müssen Benutzername und Passwort für einen Benutzer angegeben werden, welcher auf dem OHDM-Server registriert ist. Der Aufbau kann Listing \ref{lst:SSHConstants} entnommen werden. 
+
+Außerdem benötigt der angegebene Benutzer bestimmte Rechte um Dateien im Verzeichnis des Geoservers abzulegen. Es genügt den Benutzer der Gruppe \enquote{tomcat7} auf dem Geoserver hinzuzufügen. Dies ist beispielsweise mit Verwendung des Befehls \lstinline[]{sudo usermod -a -G tomcat7 [user-name]} möglich.
+
+Damit die Anwendung eine Verbindung zum Geoserver herstellen kann, muss sich der PC im Netzwerk der HTW Berlin befinden. Falls der Anwender sich nicht direkt im Netzwerk der HTW befindet, kann auf eine Verbindung über VPN zurückgegriffen werden.\footnote{Mehr Informationen über die Benutzung des VPN an der HTW Berlin siehe: \url{https://anleitungen.rz.htw-berlin.de/de/vpn/}}
+
